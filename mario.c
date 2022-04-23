@@ -21,7 +21,7 @@ int main(void)
     {
         height = get_int("Height: ");
     }
-    while (height <= 0);
+    while (height <= 0 || height >= 9);
 
     const int WIDTH = height;
     const int SEPARATION = 2;
