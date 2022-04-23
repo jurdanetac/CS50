@@ -42,7 +42,6 @@ int main(void)
 
         // print second pyramid
         print_repeatedly("#", hashtags);
-        print_repeatedly(" ", spaces);
 
         // jump to next row
         printf("\n");
