@@ -19,7 +19,17 @@ int main(void)
     }
     while (!card);
 
-    determine_issuer(card);
+    if (luhns_check(card))
+    {
+        determine_issuer(card);
+    }
+    else
+    {
+        printf("INVALID");
+    }
+
+    // move cursor to next line
+    printf("\n");
 }
 
 // count how many digits does an integer have
@@ -137,7 +147,4 @@ void determine_issuer(long credit_card)
             printf("INVALID");
             break;
     }
-
-    // move cursor to next line
-    printf("\n");
 }
