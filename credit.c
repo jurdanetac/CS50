@@ -121,14 +121,14 @@ void determine_issuer(long credit_card)
 
         case 16:
         {
-            if (credit_card == 5 && (second_digit >= 1 && second_digit <= 5))
-            {
-                printf("MASTERCARD");
-                break;
-            }
-            else if (credit_card == 4)
+            if (credit_card == 4)
             {
                 printf("VISA");
+                break;
+            }
+            else if (credit_card == 5 && (second_digit >= 1 && second_digit <= 5))
+            {
+                printf("MASTERCARD");
                 break;
             }
         }
