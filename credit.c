@@ -84,14 +84,14 @@ bool luhns_check(long card_number)
         {
             sum += current_digit;
         }
-
-        // if the total modulo 10 is congruent to 0, the number is valid
-        if (!(sum % 10))
-        {
-            return true;
-        }
     }
     while (card_number);
+
+    // if the total modulo 10 is congruent to 0, the number is valid
+    if (!(sum % 10))
+    {
+        return true;
+    }
 
     return false;
 }
