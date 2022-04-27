@@ -16,7 +16,7 @@ int main(void)
 
     char digit;
 
-    // do everything here prevents iterating the same string on three functions
+    // doing everything here prevents iterating the same string on 3 functions
     for (int i = 0; i <= LENGTH; i++)
     {
         digit = tolower(text[i]);
@@ -39,9 +39,6 @@ int main(void)
     int avg_sentences = sentences *100 / words;
 
     int index = round(0.0588 * avg_letters - 0.296 * avg_sentences - 15.8);
-
-    // print user input to screen
-    printf("%s\n", text);
 
     if (index >= 16)
     {
