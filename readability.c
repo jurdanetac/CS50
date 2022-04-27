@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 int main(void)
 {
@@ -15,6 +16,7 @@ int main(void)
 
     char digit;
 
+    // do everything here prevents iterating the same string on three functions
     for (int i = 0; i <= LENGTH; i++)
     {
         digit = tolower(text[i]);
@@ -31,11 +33,28 @@ int main(void)
         {
             sentences++;
         }
-
     }
 
+    int avg_letters = letters * 100 / words;
+    int avg_sentences = sentences *100 / words;
+
+    int index = round(0.0588 * avg_letters - 0.296 * avg_sentences - 15.8);
+
     // print user input to screen
-    printf("letters: %i\n", letters);
-    printf("words: %i\n", words);
-    printf("sentences: %i\n", sentences);
+    printf("%s\n", text);
+
+    if (index >= 16)
+    {
+        printf("Grade 16+");
+    }
+    else if (index < 1)
+    {
+        printf("Before Grade 1");
+    }
+    else
+    {
+        printf("Grade: %i", index);
+    }
+
+    printf("\n");
 }
