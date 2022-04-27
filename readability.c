@@ -38,7 +38,7 @@ int main(void)
     int avg_letters = round(letters * 100 / words);
     int avg_sentences = round(sentences * 100 / words);
 
-    int index = 0.0588 * avg_letters - 0.296 * avg_sentences - 15.8;
+    int index = round(0.0588 * avg_letters - 0.296 * avg_sentences - 15.8);
 
     if (index >= 16)
     {
