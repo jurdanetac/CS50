@@ -14,6 +14,7 @@ int main(void)
     int letters = 0;
     int sentences = 0;
 
+    // used as auxiliary on for loop to count
     char digit;
 
     // doing everything here prevents iterating the same string on 3 functions
@@ -22,24 +23,29 @@ int main(void)
         // prevent uppercase and reevaluating the same char
         digit = tolower(text[i]);
 
+        // is alphabetical
         if (isalpha(digit))
         {
             letters++;
         }
+        // is space or end of string
         else if (isspace(digit) || digit == '\0')
         {
             words++;
         }
+        // is end of sentence
         else if (digit == '.' || digit == '?' || digit == '!')
         {
             sentences++;
         }
     }
 
-    // note that if multiplying by '100' will alter our result since float * int
+    // note that multiplying '100' will alter our result since float * int trunc
     float avg_letters = letters * 100.0 / words;
     float avg_sentences = sentences * 100.0 / words;
 
+
+    // print Coleman-Liau index rounded to nearest integer
     int index = round(0.0588 * avg_letters - 0.296 * avg_sentences - 15.8);
 
     if (index >= 16)
