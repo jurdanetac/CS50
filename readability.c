@@ -19,6 +19,7 @@ int main(void)
     // doing everything here prevents iterating the same string on 3 functions
     for (int i = 0; i <= LENGTH; i++)
     {
+        // prevent uppercase and reevaluating the same char
         digit = tolower(text[i]);
 
         if (isalpha(digit))
@@ -35,17 +36,11 @@ int main(void)
         }
     }
 
-    int avg_letters = round(letters * 100 / words);
-    int avg_sentences = round(sentences * 100 / words);
+    // note that if multiplying by '100' will alter our result since float * int
+    float avg_letters = letters * 100.0 / words;
+    float avg_sentences = sentences * 100.0 / words;
 
     int index = round(0.0588 * avg_letters - 0.296 * avg_sentences - 15.8);
-
-    printf("lettters %i\n", letters);
-    printf("sentences %i\n", sentences);
-    printf("words %i\n", words);
-    printf("index %i\n", index);
-
-
 
     if (index >= 16)
     {
