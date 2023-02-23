@@ -1,0 +1,13 @@
+sort1 uses: Selection Sort
+
+How do you know?: After testing with different unsorted .txt files, sorting program #1 was the least
+efficient time-wise, being always slower than program #2 and program #3, we know the best case scenario for
+selection sort is O(n^2).
+
+sort2 uses: Merge Sort
+
+How do you know?:
+
+sort3 uses: Bubble Sort
+
+How do you know?: TODO
