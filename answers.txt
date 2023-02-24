@@ -1,11 +1,14 @@
 sort1 uses: Bubble Sort
 
-How do you know?:
+How do you know?: When sorting an already sorted array, the number of passes is the same as the length of the
+array, speeding up the process, and this can be seen as sort3 (Selection Sort) takes a lot more time to quit.
 
 sort2 uses: Merge Sort
 
-How do you know?:
+How do you know?: The speed of sort2 is hugely noticeable on big datasets since the running time does not
+increase much when more steps to sort are needed.
 
 sort3 uses: Selection Sort
 
-How do you know?: TODO
+How do you know?: On reversed arrays, as small numbers are moved to the beginning, large numbers line themselves
+on the end of the array and the middle number stays in place, so only half of the array is actively sorted.
