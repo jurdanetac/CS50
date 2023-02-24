@@ -6,6 +6,6 @@ sort2 uses: Merge Sort
 
 How do you know?:
 
-sort3 uses: Seleection Sort
+sort3 uses: Selection Sort
 
 How do you know?: TODO
