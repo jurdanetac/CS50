@@ -87,7 +87,10 @@ bool vote(string name)
 void print_winner(void)
 {
     candidate winner;
+    winner.name  = "";
     winner.votes = 0;
+
+    // Number of candidates with the same votes as the winner
     int ties     = 0;
 
     // Iterate over candidate list
@@ -95,11 +98,13 @@ void print_winner(void)
     {
         if (candidates[i].votes > winner.votes)
         {
+            // Update winner
             winner = candidates[i];
 
             // Iterate over the rest of the candidate list
             for (int j = i; j < candidate_count; j++)
             {
+                // Check if there's another candidate with the same vote count as the winner
                 if (strcmp(candidates[j].name, winner.name) != 0 && candidates[j].votes == winner.votes)
                 {
                     ties++;
@@ -110,18 +115,21 @@ void print_winner(void)
 
     if (ties)
     {
+        // Create array of tied candidates, first one is the first winner encountered
         candidate winners[ties + 1];
         winners[0] = winner;
 
-
+        // Iterate over candidate list
         for (int i = 0; i < candidate_count; i++)
         {
+            // Populate the winners array
             if (candidates[i].votes == winner.votes && strcmp(candidates[i].name, winner.name) != 0)
             {
                 winners[i] = candidates[i];
             }
         }
 
+        // Print the winners' names
         for (int i = 0; i <= ties; i++)
         {
             printf("%s\n", winners[i].name);
@@ -129,8 +137,10 @@ void print_winner(void)
     }
     else
     {
+        // Print the sole winner name if no ties
         printf("%s\n", winner.name);
     }
 
+    // Printing successfully completed
     return;
 }
