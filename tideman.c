@@ -288,20 +288,25 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
+    int k = pair_count;
+
     for (int i = 0; i < pair_count; i++)
     {
-        for (int j = 0; j < pair_count; j++)
+        for (int j = 0; j < pair_count - 2; j++)
         {
-            if (j > pair_count)
-            {
-                // Do not go over array size
-                break;
-            }
-            else if (pairs[i].winner == pairs[j].loser && pairs[i].loser == pairs[j + 1].winner && pairs[j].winner == pairs[j + 1].loser)
+            k--;
+
+            if (pairs[i].winner == pairs[j].loser && pairs[i].loser == pairs[j + 1].winner && pairs[j].winner == pairs[j + 1].loser)
             {
                 // Loop detected
                 // printf("pairs[i].winner (%i) == pairs[j].loser (%i)\npairs[i].loser (%i) == pairs[j + 1].winner (%i)\npairs[j].winner (%i) == pairs[j + 1].loser (%i)\n", pairs[i].winner, pairs[j].loser, pairs[i].loser, pairs[j + 1].winner, pairs[j].winner, pairs[j + 1].loser);
-                // printf("loop!\n");
+                printf("loop!\n");
+                break;
+            }
+            else if (i > pair_count / 2 && pairs[i].winner == pairs[k].loser && pairs[i].loser == pairs[k - 1].winner && pairs[k].winner == pairs[k - 1].loser)
+            {
+                // Loop detected
+                printf("loop!\n");
                 break;
             }
 
