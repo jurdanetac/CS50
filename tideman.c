@@ -175,17 +175,19 @@ void add_pairs(void)
 {
     // Determine number of possible pairs
     pair_count         = candidate_count * (candidate_count - 1) / 2;
-    //
+    // Remember how many pairs have been added to pairs[]
     int pairs_counted  = 0;
-    //
+    // TODO
     pair tied_pairs[pair_count];
-    //
+    // Pair to be added
     pair p;
 
     for (int i = 0; i < candidate_count; i++)
     {
         for (int j = 0; j < candidate_count; j++)
         {
+            // The i < j condition to loop over the top half of the matrix was taken from
+            // https://stackoverflow.com/a/70023912
             if (preferences[i][j] > preferences[j][i] && i < j)
             {
                 p.winner = i;
@@ -236,6 +238,11 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
+    // Bubble Sort pairs
+    // References used to implement:
+    // https://youtu.be/4oqjcKenCH8?t=5039
+    // https://cs50.harvard.edu/x/2023/notes/3/#sorting
+    // https://en.wikipedia.org/wiki/Bubble_sort#Implementation
     bool swaps = true;
     pair aux;
 
@@ -257,12 +264,23 @@ void sort_pairs(void)
     }
     while(swaps);
 
+    // Print preferences[][]
+    printf("\n");
+    for (int i = 0; i < candidate_count; i++)
+    {
+        for (int j = 0; j < candidate_count; j++)
+        {
+            printf("%i ", preferences[i][j]);
+        }
+        printf("\n");
+    }
+
     // Print sorted pairs
-    // printf("Sorted Pairs:\n");
-    // for (int k = 0; k < pair_count - ties; k++)
-    // {
-    //     printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
-    // }
+    printf("Sorted Pairs:\n");
+    for (int k = 0; k < pair_count - ties; k++)
+    {
+        printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
+    }
 
     return;
 }
@@ -270,6 +288,37 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
+    for (int i = 0; i < pair_count; i++)
+    {
+        for (int j = 0; j < pair_count; j++)
+        {
+            if (j > pair_count - 3)
+            {
+                // Do not go over array size
+                break;
+            }
+            else if (pairs[i].winner == pairs[j].loser && pairs[i].loser == pairs[j + 1].winner && pairs[j].winner == pairs[j + 1].loser)
+            {
+                // Loop detected
+                // printf("pairs[i].winner (%i) == pairs[j].loser (%i)\npairs[i].loser (%i) == pairs[j + 1].winner (%i)\npairs[j].winner (%i) == pairs[j + 1].loser (%i)\n", pairs[i].winner, pairs[j].loser, pairs[i].loser, pairs[j + 1].winner, pairs[j].winner, pairs[j + 1].loser);
+                // printf("loop!\n");
+                break;
+            }
+
+            locked[pairs[i].winner][pairs[i].loser] = true;
+        }
+    }
+
+    // Print locked[][]
+    for (int i = 0; i < candidate_count; i++)
+    {
+        for (int j = 0; j < candidate_count; j++)
+        {
+            printf("%i ", locked[i][j]);
+        }
+        printf("\n");
+    }
+
     // TODO
     return;
 }
