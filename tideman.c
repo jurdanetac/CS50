@@ -292,7 +292,7 @@ void lock_pairs(void)
     {
         for (int j = 0; j < pair_count; j++)
         {
-            if (j > pair_count - 3)
+            if (j > pair_count)
             {
                 // Do not go over array size
                 break;
