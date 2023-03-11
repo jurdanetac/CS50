@@ -201,7 +201,7 @@ void add_pairs(void)
             {
                 continue;
             }
-
+            
             pairs[pair_count] = p;
             pair_count++;
         }
@@ -232,7 +232,7 @@ void sort_pairs(void)
     {
         swaps = false;
 
-        for (int i = 0; i < pair_count - 1; i++)
+        for (int i = 0; i < pair_count; i++)
         {
             if (preferences[pairs[i].winner][pairs[i].loser] < preferences[pairs[i + 1].winner][pairs[i + 1].loser])
             {
@@ -259,7 +259,7 @@ void sort_pairs(void)
 
     // Print sorted pairs
     printf("Sorted Pairs:\n");
-    for (int k = 0; k < pair_count - ties; k++)
+    for (int k = 0; k < pair_count; k++)
     {
         printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
     }
@@ -289,7 +289,7 @@ void dfs(int v)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    for (int i = 0; i < pair_count - ties; i++)
+/*    for (int i = 0; i < pair_count + 2; i++)
     {
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
@@ -305,7 +305,7 @@ void lock_pairs(void)
     }
 
     // TODO
-    return;
+    return;*/
 }
 
 // Print the winner of the election
