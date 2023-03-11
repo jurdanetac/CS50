@@ -205,7 +205,7 @@ void add_pairs(void)
                 ties++;
                 continue;
                 */
-                continue;
+                ties++;
             }
             else
             {
