@@ -287,28 +287,29 @@ void sort_pairs(void)
 
 //
 
-bool visited[MAX];
+bool grey[MAX];
+bool black[MAX];
 
-void dft(int v, int p, bool mn)
+void dft(int v, int p)
 {
-    if (visited[v] && mn)
+    if (black[v])
     {
+        return;
+    }
+    else if (grey[v])
+    {
+        black[v] = true;
         locked[p][v] = false;
         return;
     }
 
-    visited[v] = true;
+    grey[v] = true;
 
     for (int i = 0; i < pair_count; i++)
     {
-       if (i == pair_count - 3)
-       {
-            mn = false;
-        }
-
-        if (locked[v][i] && mn)
+        if (locked[v][i])
         {
-            dft(i, v, mn);
+            dft(i, v);
         }
     }
 }
@@ -318,7 +319,7 @@ void lock_pairs(void)
 {
     for (int i = 0; i < candidate_count; i++)
     {
-        visited[i] = false;
+        grey[i] = false;
     }
 
     for (int i = 0; i < pair_count; i++)
@@ -326,7 +327,7 @@ void lock_pairs(void)
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
 
-    dft(pairs[0].winner, pairs[0].winner, true);
+    dft(pairs[0].winner, pairs[0].winner);
 
     // Print locked[][]
     for (int i = 0; i < candidate_count; i++)
