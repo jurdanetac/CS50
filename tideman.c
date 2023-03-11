@@ -174,9 +174,9 @@ int ties = 0;
 void add_pairs(void)
 {
     // Determine number of possible pairs
-    pair_count         = candidate_count * (candidate_count - 1) / 2;
+    // pair_count         = candidate_count * (candidate_count - 1) / 2;
     // Remember how many pairs have been added to pairs[]
-    int pairs_counted  = 0;
+    // int pairs_counted  = 0;
     // TODO
     // pair tied_pairs[pair_count];
     // Pair to be added
@@ -193,25 +193,27 @@ void add_pairs(void)
                 p.winner = i;
                 p.loser = j;
             }
-            else if (preferences[i][j] < preferences[j][i] && i < j || preferences[i][j] == preferences[j][i] && i < j)
+            else if (preferences[i][j] < preferences[j][i] && i < j)
             {
                 p.winner = j;
                 p.loser = i;
             }
-            /*else if (preferences[i][j] == preferences[j][i] && i < j)
+            else if (preferences[i][j] == preferences[j][i] && i < j)
             {
+                /*
                 tied_pairs[ties].winner = i;
                 tied_pairs[ties].loser = j;
+                */
                 ties++;
                 continue;
-            }*/
+            }
             else
             {
                 continue;
             }
 
-            pairs[pairs_counted] = p;
-            pairs_counted++;
+            pairs[pair_count] = p;
+            pair_count++;
         }
     }
 
@@ -285,22 +287,10 @@ void sort_pairs(void)
     return;
 }
 
-bool check_cycle(pair p)
-{
-    if (locked[p.loser][p.winner])
-    {
-        return true;
-    }
-
-
-
-    return false;
-}
-
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    for (int i = 0; i < pair_count - 1; i++)
+/*    for (int i = 0; i < pair_count - 1; i++)
     {
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
@@ -317,6 +307,7 @@ void lock_pairs(void)
 
     // TODO
     return;
+*/
 }
 
 // Print the winner of the election
