@@ -193,20 +193,18 @@ void add_pairs(void)
                 p.winner = i;
                 p.loser = j;
             }
-            else if (preferences[i][j] < preferences[j][i] && i < j)
+            else if (preferences[i][j] < preferences[j][i] && i < j || preferences[i][j] == preferences[j][i] && i < j)
             {
                 p.winner = j;
                 p.loser = i;
             }
-            else if (preferences[i][j] == preferences[j][i] && i < j)
+            /*else if (preferences[i][j] == preferences[j][i] && i < j)
             {
-                /*tied_pairs[ties].winner = i;
+                tied_pairs[ties].winner = i;
                 tied_pairs[ties].loser = j;
                 ties++;
                 continue;
-                */
-                ties++;
-            }
+            }*/
             else
             {
                 continue;
