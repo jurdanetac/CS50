@@ -209,7 +209,7 @@ void add_pairs(void)
 
     // Print pairs
     printf("Pairs:\n");
-    for (int k = 0; k < pair_count - ties; k++)
+    for (int k = 0; k < pair_count; k++)
     {
         printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
     }
