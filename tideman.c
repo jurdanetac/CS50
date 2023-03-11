@@ -173,12 +173,6 @@ int ties = 0;
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
 {
-    // Determine number of possible pairs
-    // pair_count         = candidate_count * (candidate_count - 1) / 2;
-    // Remember how many pairs have been added to pairs[]
-    // int pairs_counted  = 0;
-    // TODO
-    // pair tied_pairs[pair_count];
     // Pair to be added
     pair p;
 
@@ -200,10 +194,6 @@ void add_pairs(void)
             }
             else if (preferences[i][j] == preferences[j][i] && i < j)
             {
-                /*
-                tied_pairs[ties].winner = i;
-                tied_pairs[ties].loser = j;
-                */
                 ties++;
                 continue;
             }
@@ -218,21 +208,11 @@ void add_pairs(void)
     }
 
     // Print pairs
-    // printf("Pairs:\n");
-    // for (int k = 0; k < pair_count - ties; k++)
-    // {
-    //     printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
-    // }
-
-    // Print tied pairs, if any
-    // if (ties)
-    // {
-    //     printf("Ties:\n");
-    //     for (int k = 0; k < ties; k++)
-    //     {
-    //         printf("(%s, %s)\n", candidates[tied_pairs[k].winner], candidates[tied_pairs[k].loser]);
-    //     }
-    // }
+    printf("Pairs:\n");
+    for (int k = 0; k < pair_count - ties; k++)
+    {
+        printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
+    }
 
     return;
 }
@@ -287,10 +267,27 @@ void sort_pairs(void)
     return;
 }
 
+bool visited[pair_count];
+
+void dfs(int v)
+{
+    if (visited(v))
+    {
+        return;
+    }
+
+    for (int i = 0: i < pair_count; i++)
+    {
+
+    }
+
+    return;
+}
+
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-/*    for (int i = 0; i < pair_count - 1; i++)
+    for (int i = 0; i < pair_count - 1; i++)
     {
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
@@ -307,7 +304,6 @@ void lock_pairs(void)
 
     // TODO
     return;
-*/
 }
 
 // Print the winner of the election
