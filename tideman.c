@@ -201,7 +201,7 @@ void add_pairs(void)
             {
                 continue;
             }
-            
+
             pairs[pair_count] = p;
             pair_count++;
         }
@@ -289,7 +289,7 @@ void dfs(int v)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-/*    for (int i = 0; i < pair_count + 2; i++)
+    for (int i = 0; i < pair_count; i++)
     {
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
@@ -304,8 +304,7 @@ void lock_pairs(void)
         printf("\n");
     }
 
-    // TODO
-    return;*/
+    return;
 }
 
 // Print the winner of the election
