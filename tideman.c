@@ -262,7 +262,7 @@ void sort_pairs(void)
             }
         }
     }
-    while(swaps);
+    while (swaps);
 
     // Print preferences[][]
     printf("\n");
@@ -285,34 +285,43 @@ void sort_pairs(void)
     return;
 }
 
-// Lock pairs into the candidate graph in order, without creating cycles
-void lock_pairs(void)
+//
+
+bool visited[MAX];
+
+void dft(int v, int p)
 {
-    int k = pair_count;
+    if (visited[v])
+    {
+        locked[p][v] = false;
+        return;
+    }
+
+    visited[v] = true;
 
     for (int i = 0; i < pair_count; i++)
     {
-        for (int j = 0; j < pair_count - 2; j++)
+        if (locked[v][i])
         {
-            k--;
-
-            if (pairs[i].winner == pairs[j].loser && pairs[i].loser == pairs[j + 1].winner && pairs[j].winner == pairs[j + 1].loser)
-            {
-                // Loop detected
-                // printf("pairs[i].winner (%i) == pairs[j].loser (%i)\npairs[i].loser (%i) == pairs[j + 1].winner (%i)\npairs[j].winner (%i) == pairs[j + 1].loser (%i)\n", pairs[i].winner, pairs[j].loser, pairs[i].loser, pairs[j + 1].winner, pairs[j].winner, pairs[j + 1].loser);
-                printf("loop!\n");
-                break;
-            }
-            else if (i > pair_count / 2 && pairs[i].winner == pairs[k].loser && pairs[i].loser == pairs[k - 1].winner && pairs[k].winner == pairs[k - 1].loser)
-            {
-                // Loop detected
-                printf("loop!\n");
-                break;
-            }
-
-            locked[pairs[i].winner][pairs[i].loser] = true;
+            dft(i, v);
         }
     }
+}
+
+// Lock pairs into the candidate graph in order, without creating cycles
+void lock_pairs(void)
+{
+    for (int i = 0; i < candidate_count; i++)
+    {
+        visited[i] = false;
+    }
+
+    for (int i = 0; i < pair_count; i++)
+    {
+        locked[pairs[i].winner][pairs[i].loser] = true;
+    }
+
+    dft(pairs[0].winner, pairs[0].winner);
 
     // Print locked[][]
     for (int i = 0; i < candidate_count; i++)
