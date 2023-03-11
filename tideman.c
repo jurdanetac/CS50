@@ -267,16 +267,18 @@ void sort_pairs(void)
     return;
 }
 
-bool visited[pair_count];
+bool visited[MAX];
 
 void dfs(int v)
 {
-    if (visited(v))
+    if (visited[v])
     {
         return;
     }
 
-    for (int i = 0: i < pair_count; i++)
+    visited[v] = true;
+
+    for (int i = 0; i < pair_count; i++)
     {
 
     }
