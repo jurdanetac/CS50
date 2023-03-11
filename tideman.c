@@ -178,7 +178,7 @@ void add_pairs(void)
     // Remember how many pairs have been added to pairs[]
     int pairs_counted  = 0;
     // TODO
-    pair tied_pairs[pair_count];
+    // pair tied_pairs[pair_count];
     // Pair to be added
     pair p;
 
@@ -205,8 +205,7 @@ void add_pairs(void)
                 ties++;
                 continue;
                 */
-                p.winner = i;
-                p.loser = j;
+                continue;
             }
             else
             {
