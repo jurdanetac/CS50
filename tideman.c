@@ -200,10 +200,13 @@ void add_pairs(void)
             }
             else if (preferences[i][j] == preferences[j][i] && i < j)
             {
-                tied_pairs[ties].winner = i;
+                /*tied_pairs[ties].winner = i;
                 tied_pairs[ties].loser = j;
                 ties++;
                 continue;
+                */
+                p.winner = i;
+                p.loser = j;
             }
             else
             {
@@ -285,48 +288,25 @@ void sort_pairs(void)
     return;
 }
 
-//
-bool visited[MAX];
-
-void dft(int v, int p)
+bool check_cycle(pair p)
 {
-    if (visited[v])
+    if (locked[p.loser][p.winner])
     {
-        locked[p][v] = false;
-        printf("loop\n");
-        return;
+        return true;
     }
 
-    visited[v] = true;
 
-    // visit neighbors
-    for (int i = 0; i < pair_count; i++)
-    {
-        if (pairs[i].winner == v)
-        {
-            dft(pairs[i].loser, v);
-        }
-        else if (pairs[i].loser == v)
-        {
-            dft(pairs[i].winner, v);
-        }
-    }
+
+    return false;
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    for (int i = 0; i < candidate_count; i++)
-    {
-        visited[i] = false;
-    }
-
     for (int i = 0; i < pair_count - 1; i++)
     {
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
-
-    dft(pairs[0].winner, pairs[0].winner);
 
     // Print locked[][]
     for (int i = 0; i < candidate_count; i++)
