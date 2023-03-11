@@ -286,7 +286,6 @@ void sort_pairs(void)
 }
 
 //
-
 bool visited[MAX];
 
 void dft(int v, int p)
@@ -294,6 +293,7 @@ void dft(int v, int p)
     if (visited[v])
     {
         locked[p][v] = false;
+        printf("loop\n");
         return;
     }
 
@@ -302,9 +302,13 @@ void dft(int v, int p)
     // visit neighbors
     for (int i = 0; i < pair_count; i++)
     {
-        if (pairs[i].winner == v || pairs[i].loser == v)
+        if (pairs[i].winner == v)
         {
             dft(pairs[i].loser, v);
+        }
+        else if (pairs[i].loser == v)
+        {
+            dft(pairs[i].winner, v);
         }
     }
 }
@@ -317,7 +321,7 @@ void lock_pairs(void)
         visited[i] = false;
     }
 
-    for (int i = 0; i < pair_count; i++)
+    for (int i = 0; i < pair_count - 1; i++)
     {
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
