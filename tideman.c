@@ -168,7 +168,7 @@ void record_preferences(int ranks[])
     return;
 }
 
-int ties = 0;
+// int ties = 0;
 
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
@@ -192,11 +192,11 @@ void add_pairs(void)
                 p.winner = j;
                 p.loser = i;
             }
-            else if (preferences[i][j] == preferences[j][i] && i < j)
+            /*else if (preferences[i][j] == preferences[j][i] && i < j)
             {
                 ties++;
                 continue;
-            }
+            }*/
             else
             {
                 continue;
