@@ -286,8 +286,8 @@ bool dfs(int v)
 
     for (int i = 0; i < neighbor_count; i++)
     {
-        visiting[neighbors[i]] = true;
         dfs(neighbors[i]);
+        visiting[neighbors[i]] = false;
         visited[neighbors[i]] = true;
     }
 
@@ -309,9 +309,9 @@ void lock_pairs(void)
         }
     }
 
-    for (int i = 0; i < pair_count; i++)
+    for (int i = 0; i < candidate_count; i++)
     {
-        if (dfs(pairs[i].winner))
+        if (dfs(unvisited[i]))
         {
             continue;
         }
