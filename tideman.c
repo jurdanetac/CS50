@@ -286,10 +286,7 @@ bool check_cycle(int v)
 
     for (int i = 0; i < neighbor_count; i++)
     {
-        if (!(visited[neighbors[i]]))
-        {
-            check_cycle(neighbors[i]);
-        }
+        check_cycle(neighbors[i]);
     }
 
     return false;
