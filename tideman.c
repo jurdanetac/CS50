@@ -260,11 +260,13 @@ void sort_pairs(void)
     return;
 }
 
-bool visited[MAX];
-int neighbors[MAX];
-
 bool check_cycle(int v)
 {
+    int neighbors[MAX];
+    int neighbor_count = 0;
+
+    bool visited[MAX];
+
     if (visited[v])
     {
         return true;
@@ -275,10 +277,18 @@ bool check_cycle(int v)
     // identify neighbors
     for (int i = 0; i < pair_count; i++)
     {
-        if (pairs[i].winner == v && pairs[i].loser)
+        if (pairs[i].winner == v)
         {
-            printf("%i\n", i);
-            printf("%i\n", pairs[i].loser);
+            neighbors[neighbor_count] = pairs[i].loser;
+            neighbor_count++;
+        }
+    }
+
+    for (int i = 0; i < neighbor_count; i++)
+    {
+        if (!(visited[neighbors[i]]))
+        {
+            check_cycle(neighbors[i]);
         }
     }
 
@@ -288,11 +298,6 @@ bool check_cycle(int v)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    for (int i = 0; i < candidate_count; i++)
-    {
-        visited[i] = false;
-    }
-
     for (int i = 0; i < pair_count; i++)
     {
         if (check_cycle(pairs[i].winner))
