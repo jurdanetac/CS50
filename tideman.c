@@ -168,8 +168,6 @@ void record_preferences(int ranks[])
     return;
 }
 
-// int ties = 0;
-
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
 {
@@ -192,11 +190,6 @@ void add_pairs(void)
                 p.winner = j;
                 p.loser = i;
             }
-            /*else if (preferences[i][j] == preferences[j][i] && i < j)
-            {
-                ties++;
-                continue;
-            }*/
             else
             {
                 continue;
@@ -268,29 +261,45 @@ void sort_pairs(void)
 }
 
 bool visited[MAX];
+int neighbors[MAX];
 
-void dfs(int v)
+bool check_cycle(int v)
 {
     if (visited[v])
     {
-        return;
+        return true;
     }
 
     visited[v] = true;
 
+    // identify neighbors
     for (int i = 0; i < pair_count; i++)
     {
-
+        if (pairs[i].winner == v && pairs[i].loser)
+        {
+            printf("%i\n", i);
+            printf("%i\n", pairs[i].loser);
+        }
     }
 
-    return;
+    return false;
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
+    for (int i = 0; i < candidate_count; i++)
+    {
+        visited[i] = false;
+    }
+
     for (int i = 0; i < pair_count; i++)
     {
+        if (check_cycle(pairs[i].winner))
+        {
+            continue;
+        }
+
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
 
