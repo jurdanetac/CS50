@@ -201,11 +201,11 @@ void add_pairs(void)
     }
 
     // Print pairs
-    printf("Pairs:\n");
-    for (int k = 0; k < pair_count; k++)
-    {
-        printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
-    }
+    // printf("Pairs:\n");
+    // for (int k = 0; k < pair_count; k++)
+    // {
+    //     printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
+    // }
 
     return;
 }
@@ -240,56 +240,29 @@ void sort_pairs(void)
     while (swaps);
 
     // Print preferences[][]
-    printf("\n");
-    for (int i = 0; i < candidate_count; i++)
-    {
-        for (int j = 0; j < candidate_count; j++)
-        {
-            printf("%i ", preferences[i][j]);
-        }
-        printf("\n");
-    }
+    // printf("\n");
+    // for (int i = 0; i < candidate_count; i++)
+    // {
+    //     for (int j = 0; j < candidate_count; j++)
+    //     {
+    //         printf("%i ", preferences[i][j]);
+    //     }
+    //     printf("\n");
+    // }
 
     // Print sorted pairs
-    printf("Sorted Pairs:\n");
-    for (int k = 0; k < pair_count; k++)
-    {
-        printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
-    }
+    // printf("Sorted Pairs:\n");
+    // for (int k = 0; k < pair_count; k++)
+    // {
+    //     printf("(%s, %s)\n", candidates[pairs[k].winner], candidates[pairs[k].loser]);
+    // }
 
     return;
 }
 
-bool dfs(int v)
+bool creates_cycle(pair p)
 {
-    int neighbors[MAX];
-    int neighbor_count = 0;
-    bool visiting[MAX];
-    bool visited[MAX];
-
-    if (visiting[v])
-    {
-        return true;
-    }
-
-    visiting[v] = true;
-
-    // identify neighbors
-    for (int i = 0; i < pair_count; i++)
-    {
-        if (pairs[i].winner == v)
-        {
-            neighbors[neighbor_count] = pairs[i].loser;
-            neighbor_count++;
-        }
-    }
-
-    for (int i = 0; i < neighbor_count; i++)
-    {
-        dfs(neighbors[i]);
-        visiting[neighbors[i]] = false;
-        visited[neighbors[i]] = true;
-    }
+   
 
     return false;
 }
@@ -297,21 +270,9 @@ bool dfs(int v)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    int unvisited[MAX];
-
-    unvisited[0] = pairs[0].winner;
-
-    for (int i = 1; i <= candidate_count; i++)
+    for (int i = 0; i < pair_count; i++)
     {
-        if (pairs[i].winner != unvisited[0])
-        {
-            unvisited[i] = pairs[i].winner;
-        }
-    }
-
-    for (int i = 0; i < candidate_count; i++)
-    {
-        if (dfs(unvisited[i]))
+        if (creates_cycle(pairs[i]))
         {
             continue;
         }
@@ -319,7 +280,6 @@ void lock_pairs(void)
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
 
-    // Print locked[][]
     for (int i = 0; i < candidate_count; i++)
     {
         for (int j = 0; j < candidate_count; j++)
