@@ -260,9 +260,37 @@ void sort_pairs(void)
     return;
 }
 
-bool creates_cycle(pair p)
+bool creates_cycle(pair p, int next)
 {
-   
+    // Populate neighbors
+    int neighbors[candidate_count - 1];
+    int neighbor_count = 0;
+
+    for (int i = 0; i < pair_count; i++)
+    {
+        if (p.winner == pairs[i].winner)
+        {
+            neighbors[neighbor_count] = pairs[i].loser;
+            neighbor_count++;
+        }
+
+        if (preferences[p.winner][next] < preferences[next][p.winner])
+        {
+            return true;
+        }
+    }
+
+
+    // for (int i = 0; i < neighbor_count; i++)
+    // {
+    // }
+
+    // printf("%i\n", neighbor_count);
+
+    // for (int i = 0; i < neighbor_count; i++)
+    // {
+    //     printf("%s\n", candidates[neighbors[i]]);
+    // }
 
     return false;
 }
@@ -270,9 +298,9 @@ bool creates_cycle(pair p)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    for (int i = 0; i < pair_count; i++)
+    for (int i = 0; i < pair_count - 1; i++)
     {
-        if (creates_cycle(pairs[i]))
+        if (creates_cycle(pairs[i], pairs[i + 1].winner))
         {
             continue;
         }
@@ -288,8 +316,6 @@ void lock_pairs(void)
         }
         printf("\n");
     }
-
-    return;
 }
 
 // Print the winner of the election
