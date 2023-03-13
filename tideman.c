@@ -260,9 +260,18 @@ void sort_pairs(void)
     return;
 }
 
-bool creates_cycle(pair p, int next)
+bool visited[MAX];
+
+bool creates_cycle(pair p)
 {
-    // Populate neighbors
+    if (visited[p.winner])
+    {
+        return true;
+    }
+
+    visited[p.winner] = true;
+
+    // Populate neighbors of current visited node
     int neighbors[candidate_count - 1];
     int neighbor_count = 0;
 
@@ -273,13 +282,23 @@ bool creates_cycle(pair p, int next)
             neighbors[neighbor_count] = pairs[i].loser;
             neighbor_count++;
         }
+    }
 
-        if (preferences[p.winner][next] < preferences[next][p.winner])
+    // Current visited node doesn't win other node
+    if (!(neighbor_count))
+    {
+        // A cycle won't happen
+        return false;
+    }
+
+    // Visit each neighbor
+    for (int i = 0; i < neighbor_count; i++)
+    {
+        if (visited[neighbors[i]])
         {
             return true;
         }
     }
-
 
     // for (int i = 0; i < neighbor_count; i++)
     // {
@@ -298,9 +317,9 @@ bool creates_cycle(pair p, int next)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    for (int i = 0; i < pair_count - 1; i++)
+    for (int i = 0; i < pair_count; i++)
     {
-        if (creates_cycle(pairs[i], pairs[i + 1].winner))
+        if (creates_cycle(pairs[i]))
         {
             continue;
         }
