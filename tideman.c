@@ -295,6 +295,7 @@ bool creates_cycle(pair p)
     }
 
     pair next;
+    printf("iter %i\n", iterations);
     next.winner = pairs[iterations].winner;
     next.loser = p.loser;
 
