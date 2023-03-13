@@ -261,9 +261,12 @@ void sort_pairs(void)
 }
 
 bool visited[MAX];
+int iterations = 0;
 
 bool creates_cycle(pair p)
 {
+    iterations++;
+
     if (visited[p.winner])
     {
         return true;
@@ -291,10 +294,14 @@ bool creates_cycle(pair p)
         return false;
     }
 
+    pair next;
+    next.winner = pairs[iterations].winner;
+    next.loser = p.loser;
+
     // Visit each neighbor
     for (int i = 0; i < neighbor_count; i++)
     {
-        if (visited[neighbors[i]])
+        if (visited[next.winner])
         {
             return true;
         }
