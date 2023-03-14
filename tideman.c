@@ -260,12 +260,19 @@ void sort_pairs(void)
     return;
 }
 
+int chain[MAX];
+int chain_count = 0;
 
-bool visited[MAX];
-bool visiting[MAX];
-
-bool creates_cycle(int v)
+bool makes_graph_cyclic(int v)
 {
+    for (int i = 0; i < chain_count; i++)
+    {
+        if (v == chain[i])
+        {
+            return true;
+        }
+    }
+
     int neighbors[MAX];
     int neighbor_count = 0;
 
@@ -279,23 +286,11 @@ bool creates_cycle(int v)
         }
     }
 
-    visiting[v] = true;
-    int next;
-
-    // Visit each neighbor
-    for (int i = 1; i < neighbor_count; i++)
+    for (int i = 0; i < neighbor_count; i++)
     {
-        next = neighbors[i];
-        // printf("next: %i\n", next);
-        if (visiting[next])
-        {
-            // Cycle detected
-            return true;
-        }
-
-        creates_cycle(next);
-        visiting[next] = false;
-        visited[next] = true;
+        chain[chain_count] = neighbors[i];
+        chain_count++;
+        
     }
 
     // Cycle not detected
@@ -307,12 +302,10 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        if (creates_cycle(pairs[i].winner))
+        if (!(makes_graph_cyclic(pairs[i].winner)))
         {
-            continue;
+            locked[pairs[i].winner][pairs[i].loser] = true;
         }
-
-        locked[pairs[i].winner][pairs[i].loser] = true;
     }
 
     for (int i = 0; i < candidate_count; i++)
