@@ -262,6 +262,7 @@ void sort_pairs(void)
 
 
 bool visited[MAX];
+bool visiting[MAX];
 
 bool creates_cycle(int v)
 {
@@ -283,14 +284,16 @@ bool creates_cycle(int v)
         // Visit each neighbor
         for (int i = 0; i < neighbor_count; i++)
         {
-            if (visited[neighbors[i]])
+            if (visiting[neighbors[i]])
             {
                 return true;
             }
 
-            visited[v] = true;
+            visiting[neighbors[i]] = true;
             creates_cycle(neighbors[i]);
-        }
+            visiting[neighbors[i]] = false;
+            visited[v] = true;
+            }
     }
 
     // Cycle not detected
