@@ -287,7 +287,7 @@ bool creates_cycle(int v)
             {
                 return true;
             }
-            
+
             visited[v] = true;
             creates_cycle(neighbors[i]);
         }
@@ -314,11 +314,12 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        if (creates_cycle(pairs[i].winner))
+        if (visited[pairs[i].winner])
         {
             continue;
         }
 
+        creates_cycle(pairs[i].winner);
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
 
