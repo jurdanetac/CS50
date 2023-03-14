@@ -260,60 +260,49 @@ void sort_pairs(void)
     return;
 }
 
+
 bool visited[MAX];
-int iterations = 0;
 
-bool creates_cycle(pair p)
+bool creates_cycle(int v)
 {
-    iterations++;
-
-    if (visited[p.winner])
+    if (visited[v])
     {
+        // Cycle detected
         return true;
     }
 
-    visited[p.winner] = true;
+    visited[v] = true;
 
-    // Populate neighbors of current visited node
-    int neighbors[candidate_count - 1];
+    int neighbors[MAX];
     int neighbor_count = 0;
 
+    // Populate neighbors of current visited node
     for (int i = 0; i < pair_count; i++)
     {
-        if (p.winner == pairs[i].winner)
+        if (pairs[i].winner == v)
         {
             neighbors[neighbor_count] = pairs[i].loser;
             neighbor_count++;
         }
     }
 
-    // Current visited node doesn't win other node
-    if (!(neighbor_count))
+    if (neighbor_count)
     {
-        // A cycle won't happen
-        return false;
-    }
-
-    pair next;
-    printf("iter %i\n", iterations);
-    next.winner = pairs[iterations].winner;
-    next.loser = p.loser;
-
-    // Visit each neighbor
-    for (int i = 0; i < neighbor_count; i++)
-    {
-        if (visited[next.winner])
+        // Visit each neighbor
+        for (int i = 0; i < neighbor_count; i++)
         {
-            return true;
+            creates_cycle(neighbors[i]);
         }
     }
+
+    // Cycle not detected
+    // return false;
 
     // for (int i = 0; i < neighbor_count; i++)
     // {
     // }
 
-    // printf("%i\n", neighbor_count);
-
+    // printf("%s has %i neighbors\n", candidates[neighbors[v]], neighbor_count);
     // for (int i = 0; i < neighbor_count; i++)
     // {
     //     printf("%s\n", candidates[neighbors[i]]);
@@ -327,7 +316,7 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        if (creates_cycle(pairs[i]))
+        if (creates_cycle(pairs[i].winner))
         {
             continue;
         }
