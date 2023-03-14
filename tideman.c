@@ -265,14 +265,6 @@ bool visited[MAX];
 
 bool creates_cycle(int v)
 {
-    if (visited[v])
-    {
-        // Cycle detected
-        return true;
-    }
-
-    visited[v] = true;
-
     int neighbors[MAX];
     int neighbor_count = 0;
 
@@ -291,6 +283,12 @@ bool creates_cycle(int v)
         // Visit each neighbor
         for (int i = 0; i < neighbor_count; i++)
         {
+            if (visited[neighbors[i]])
+            {
+                return true;
+            }
+            
+            visited[v] = true;
             creates_cycle(neighbors[i]);
         }
     }
