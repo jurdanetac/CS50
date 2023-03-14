@@ -279,36 +279,26 @@ bool creates_cycle(int v)
         }
     }
 
-    if (neighbor_count)
-    {
-        // Visit each neighbor
-        for (int i = 0; i < neighbor_count; i++)
-        {
-            if (visiting[neighbors[i]])
-            {
-                return true;
-            }
+    visiting[v] = true;
+    int next;
 
-            visiting[neighbors[i]] = true;
-            creates_cycle(neighbors[i]);
-            visiting[neighbors[i]] = false;
-            visited[v] = true;
-            }
+    // Visit each neighbor
+    for (int i = 1; i < neighbor_count; i++)
+    {
+        next = neighbors[i];
+        // printf("next: %i\n", next);
+        if (visiting[next])
+        {
+            // Cycle detected
+            return true;
+        }
+
+        creates_cycle(next);
+        visiting[next] = false;
+        visited[next] = true;
     }
 
     // Cycle not detected
-    // return false;
-
-    // for (int i = 0; i < neighbor_count; i++)
-    // {
-    // }
-
-    // printf("%s has %i neighbors\n", candidates[neighbors[v]], neighbor_count);
-    // for (int i = 0; i < neighbor_count; i++)
-    // {
-    //     printf("%s\n", candidates[neighbors[i]]);
-    // }
-
     return false;
 }
 
@@ -317,12 +307,11 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        if (visited[pairs[i].winner])
+        if (creates_cycle(pairs[i].winner))
         {
             continue;
         }
 
-        creates_cycle(pairs[i].winner);
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
 
