@@ -260,18 +260,17 @@ void sort_pairs(void)
     return;
 }
 
-int chain[MAX];
-int chain_count = 0;
+bool visited[MAX];
+int visited_count = 0;
 
-bool makes_graph_cyclic(int v)
+bool dfs_visit(int v)
 {
-    for (int i = 0; i < chain_count; i++)
+    if (visited[v])
     {
-        if (v == chain[i])
-        {
-            return true;
-        }
+        return true;
     }
+
+    printf("VISITING: %s\n", candidates[v]);
 
     int neighbors[MAX];
     int neighbor_count = 0;
@@ -288,21 +287,35 @@ bool makes_graph_cyclic(int v)
 
     for (int i = 0; i < neighbor_count; i++)
     {
-        chain[chain_count] = neighbors[i];
-        chain_count++;
-        
+        if (!(visited[neighbors[i]]))
+        {
+            visited[neighbors[i]] = true;
+            printf("Entering node %s\n", candidates[neighbors[i]]);
+            dfs_visit(neighbors[i]);
+            printf("Exiting node %s\n", candidates[neighbors[i]]);
+        }
     }
 
-    // Cycle not detected
     return false;
 }
+
+void dfs(int v)
+{
+    bool visitd[candidate_count];
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+
+    }
+}
+
 
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        if (!(makes_graph_cyclic(pairs[i].winner)))
+        if (!(dfs_visit(pairs[i].winner)))
         {
             locked[pairs[i].winner][pairs[i].loser] = true;
         }
