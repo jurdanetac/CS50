@@ -128,11 +128,11 @@ int main(int argc, string argv[])
 // Record preference if vote is valid
 bool vote(int voter, int rank, string name)
 {
-    for (int j = 0; j < candidate_count; j++)
+    for (int i = 0; i < candidate_count; i++)
     {
-        if (strcmp(name, candidates[j].name) == 0)
+        if (strcmp(name, candidates[i].name) == 0)
         {
-            preferences[voter][rank] = j;
+            preferences[voter][rank] = i;
 
             // Vote recorded successfully
             return true;
@@ -145,7 +145,11 @@ bool vote(int voter, int rank, string name)
 // Tabulate votes for non-eliminated candidates
 void tabulate(void)
 {
-    // TODO
+    for (int i = 0; i < voter_count; i++)
+    {
+        candidates[preferences[i][0]].votes++;
+    }
+
     return;
 }
 
