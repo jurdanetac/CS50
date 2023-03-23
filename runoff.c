@@ -172,17 +172,14 @@ bool print_winner(void)
 {
     int majority = 0;
 
-    if (candidate_count % 2 == 0)
+    if (voter_count % 2 == 0)
     {
-        majority = candidate_count;
+        majority = voter_count / 2;
     }
     else
     {
-        majority = candidate_count + 1;
+        majority = (voter_count / 2) + 1;
     }
-
-    candidate most_votes;
-    most_votes.votes = 0;
 
     for (int i = 0; i < candidate_count; i++)
     {
@@ -191,14 +188,9 @@ bool print_winner(void)
             printf("%s\n", candidates[i].name);
             return true;
         }
-        else if (candidates[i].votes > most_votes.votes)
-        {
-            most_votes = candidates[i];
-        }
     }
 
-    printf("%s\n", most_votes.name);
-    return true;
+    return false;
 }
 
 // Return the minimum number of votes any remaining candidate has
