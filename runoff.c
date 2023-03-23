@@ -198,8 +198,7 @@ bool print_winner(void)
     }
 
     printf("%s\n", most_votes.name);
-
-    return false;
+    return true;
 }
 
 // Return the minimum number of votes any remaining candidate has
