@@ -130,8 +130,10 @@ bool vote(int voter, int rank, string name)
 {
     for (int i = 0; i < candidate_count; i++)
     {
+        // If there's a candidate named as provided name
         if (strcmp(name, candidates[i].name) == 0)
         {
+            // Record preference of voter in given rank
             preferences[voter][rank] = i;
 
             // Vote recorded successfully
@@ -139,18 +141,23 @@ bool vote(int voter, int rank, string name)
         }
     }
 
+    // Vote not recorded successfully
     return false;
 }
 
 // Tabulate votes for non-eliminated candidates
 void tabulate(void)
 {
+    // For each voter
     for (int i = 0; i < voter_count; i++)
     {
+        // For each candidate
         for (int j = 0; j < candidate_count; j++)
         {
+            // If candidate not eliminated
             if (!candidates[preferences[i][j]].eliminated)
             {
+                // Count vote for first non-eliminated candidate
                 candidates[preferences[i][j]].votes++;
                 break;
             }
@@ -163,7 +170,35 @@ void tabulate(void)
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
-    // TODO
+    int majority = 0;
+
+    if (candidate_count % 2 == 0)
+    {
+        majority = candidate_count;
+    }
+    else
+    {
+        majority = candidate_count + 1;
+    }
+
+    candidate most_votes;
+    most_votes.votes = 0;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].votes >= majority)
+        {
+            printf("%s\n", candidates[i].name);
+            return true;
+        }
+        else if (candidates[i].votes > most_votes.votes)
+        {
+            most_votes = candidates[i];
+        }
+    }
+
+    printf("%s\n", most_votes.name);
+
     return false;
 }
 
