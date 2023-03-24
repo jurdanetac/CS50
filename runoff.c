@@ -170,36 +170,45 @@ void tabulate(void)
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
+    // This variable'll store the vote count needed to win with majority
     int majority = 0;
 
+    // If voter_count is even
     if (voter_count % 2 == 0)
     {
         majority = voter_count / 2;
     }
+    // If voter_count is odd, add one, since int truncates decimal part
     else
     {
         majority = (voter_count / 2) + 1;
     }
 
+    // For each candidate
     for (int i = 0; i < candidate_count; i++)
     {
+        // If candidate exceeds the votes needed to win majority
         if (candidates[i].votes > majority)
         {
             printf("%s\n", candidates[i].name);
+            // Winner printed
             return true;
         }
     }
 
+    // No winner yet
     return false;
 }
 
 // Return the minimum number of votes any remaining candidate has
 int find_min(void)
 {
+    // Magic number is here just as placeholder
     int lowest_found = 99;
 
     for (int i = 0; i < candidate_count; i++)
     {
+        // If candidate is not eliminated and has less votes than lowest found
         if (!candidates[i].eliminated && candidates[i].votes < lowest_found)
         {
             lowest_found = candidates[i].votes;
@@ -216,12 +225,15 @@ bool is_tie(int min)
 
     for (int i = 0; i < candidate_count - 1; i++)
     {
+        // If candidate and the next one are not eliminated and don't have the same amount of votes
         if (!(candidates[i].votes == candidates[i + 1].votes) && !candidates[i].eliminated && !candidates[i + 1].eliminated)
         {
+            // No tie, different vote count
             return false;
         }
     }
 
+    // Tie
     return true;
 }
 
@@ -230,6 +242,7 @@ void eliminate(int min)
 {
     for (int i = 0; i < candidate_count; i++)
     {
+        // Eliminate candidate if it has the least amount of votes in remaining participants
         if (candidates[i].votes == min)
         {
             candidates[i].eliminated = true;
