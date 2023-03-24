@@ -214,7 +214,7 @@ bool is_tie(int min)
 {
     bool tied = true;
 
-    for (int i = 0; i < candidate_count; i++)
+    for (int i = 0; i < candidate_count - 1; i++)
     {
         if (!(candidates[i].votes == candidates[i + 1].votes))
         {
