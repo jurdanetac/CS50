@@ -209,6 +209,7 @@ int find_min(void)
         }
     }
 
+    //printf("%i\n", lowest_found);
     return lowest_found;
 }
 
