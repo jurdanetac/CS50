@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     float factor = atof(argv[3]);
 
     uint8_t header[HEADER_SIZE] = {0};
-    int16_t buffer = 0;
+    int16_t sample = 0;
     uint8_t byte   = 0;
 
     // printf("%li\n", sizeof(byte));
@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 
     // TODO: Copy header from input file to output file
 
+    // Copy header one byte at a time
     for (int i = 0; i < HEADER_SIZE; i++)
     {
         fread(&header, sizeof(byte), 1, input);
@@ -52,6 +53,12 @@ int main(int argc, char *argv[])
 
 
     // TODO: Read samples from input file and write updated data to output file
+    while (fread(&buffer, sizeof(buffer), 1, input))
+    {
+        buffer *= factor;
+        fwrite(&buffer, sizeof(buffer), 1, output);
+    }
+
 
     // Close files
     fclose(input);
