@@ -37,11 +37,6 @@ int main(int argc, char *argv[])
     int16_t sample = 0;
     uint8_t byte   = 0;
 
-    // printf("%li\n", sizeof(byte));
-    // printf("%i\n", HEADER_SIZE);
-    // printf("%p\n", &header);
-    // printf("%p\n", &header[0]);
-
     // TODO: Copy header from input file to output file
 
     // Copy header one byte at a time
@@ -51,14 +46,14 @@ int main(int argc, char *argv[])
         fwrite(&header, sizeof(byte), 1, output);
     }
 
-
     // TODO: Read samples from input file and write updated data to output file
+
+    // Copy samples one by one, multiplied by the given factor
     while (fread(&sample, sizeof(sample), 1, input))
     {
         sample *= factor;
         fwrite(&sample, sizeof(sample), 1, output);
     }
-
 
     // Close files
     fclose(input);
