@@ -53,10 +53,10 @@ int main(int argc, char *argv[])
 
 
     // TODO: Read samples from input file and write updated data to output file
-    while (fread(&buffer, sizeof(buffer), 1, input))
+    while (fread(&sample, sizeof(sample), 1, input))
     {
-        buffer *= factor;
-        fwrite(&buffer, sizeof(buffer), 1, output);
+        sample *= factor;
+        fwrite(&sample, sizeof(sample), 1, output);
     }
 
 
