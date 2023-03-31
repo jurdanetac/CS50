@@ -15,7 +15,7 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0; j < width; j++)
         {
             // Calculate average of the three channels
-            average = (image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / 3.0;
+            average = (image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / (double) 3;
             // Calculate the floating point of the average, if any
             decimal_part = average - (int) average;
 
@@ -39,14 +39,15 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
-    int half = width / 2;
+    const int HALF = width / 2;
 
     // For each row of pixels
     for (int i = 0; i < height; i++)
     {
         // For each pixel in row (until middle of row)
-        for (int j = 0; j < half; j++)
+        for (int j = 0; j < HALF; j++)
         {
+            // Since when performing a swap the old value is lost
             RGBTRIPLE aux = image[i][j];
             image[i][j] = image[i][width-(j+1)];
             image[i][width-(j+1)] = aux;
