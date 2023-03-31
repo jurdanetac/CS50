@@ -47,7 +47,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
         // For each pixel in row (until middle of row)
         for (int j = 0; j < half; j++)
         {
-            image[i][j] = image[i][width-j+1];
+            image[i][j] = image[i][width-(j+1)];
             // Set the new channels colors for the pixel
             // image[i][j].rgbtBlue  = ;
             // image[i][j].rgbtGreen = ;
