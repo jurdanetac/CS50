@@ -39,17 +39,38 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
+    int half = width / 2;
+
+    // For each row of pixels
+    for (int i = 0; i < height; i++)
+    {
+        // For each pixel in row (until middle of row)
+        for (int j = 0; j < half; j++)
+        {
+            image[i][j] = image[i][width-j+1];
+            // Set the new channels colors for the pixel
+            // image[i][j].rgbtBlue  = ;
+            // image[i][j].rgbtGreen = ;
+            // image[i][j].rgbtRed   = ;
+        }
+    }
+
+    // BMP converted successfully
     return;
 }
 
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+
+    // BMP converted successfully
     return;
 }
 
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
+
+    // BMP converted successfully
     return;
 }
