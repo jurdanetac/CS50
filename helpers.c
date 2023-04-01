@@ -321,44 +321,44 @@ void blur_pixel(int i, int j,
         round_average(&average_blue);
         image[i-1][j-1].rgbtBlue = average_blue;
     }
-    //else if (i == 1)
-    //{
-    //    //
-    //    average_red += safe_image[i][j-1].rgbtRed;
-    //    average_red += safe_image[i][j].rgbtRed;
-    //    average_red += safe_image[i][j+1].rgbtRed;
-    //    average_red += safe_image[i+1][j-1].rgbtRed;
-    //    average_red += safe_image[i+1][j].rgbtRed;
-    //    average_red += safe_image[i+1][j+1].rgbtRed;
-    //    average_red /= (double) 6;
-//
-    //    round_average(&average_red);
-    //    image[i-1][j-1].rgbtRed = average_red;
-//
-    //    //
-    //    average_green += safe_image[i][j-1].rgbtGreen;
-    //    average_green += safe_image[i][j].rgbtGreen;
-    //    average_green += safe_image[i][j+1].rgbtGreen;
-    //    average_green += safe_image[i+1][j-1].rgbtGreen;
-    //    average_green += safe_image[i+1][j].rgbtGreen;
-    //    average_green += safe_image[i+1][j+1].rgbtGreen;
-    //    average_green /= (double) 6;
-//
-    //    round_average(&average_green);
-    //    image[i-1][j-1].rgbtGreen = average_green;
-//
-    //    //
-    //    average_blue += safe_image[i][j-1].rgbtBlue;
-    //    average_blue += safe_image[i][j].rgbtBlue;
-    //    average_blue += safe_image[i][j+1].rgbtBlue;
-    //    average_blue += safe_image[i+1][j-1].rgbtBlue;
-    //    average_blue += safe_image[i+1][j].rgbtBlue;
-    //    average_blue += safe_image[i+1][j+1].rgbtBlue;
-    //    average_blue /= (double) 6;
-//
-    //    round_average(&average_blue);
-    //    image[i-1][j-1].rgbtBlue = average_blue;
-    //}
+    else if (i == 1)
+    {
+        //
+        average_red += safe_image[i][j-1].rgbtRed;
+        average_red += safe_image[i][j].rgbtRed;
+        average_red += safe_image[i][j+1].rgbtRed;
+        average_red += safe_image[i+1][j-1].rgbtRed;
+        average_red += safe_image[i+1][j].rgbtRed;
+        average_red += safe_image[i+1][j+1].rgbtRed;
+        average_red /= (double) 6;
+
+        round_average(&average_red);
+        image[i-1][j-1].rgbtRed = average_red;
+
+        //
+        average_green += safe_image[i][j-1].rgbtGreen;
+        average_green += safe_image[i][j].rgbtGreen;
+        average_green += safe_image[i][j+1].rgbtGreen;
+        average_green += safe_image[i+1][j-1].rgbtGreen;
+        average_green += safe_image[i+1][j].rgbtGreen;
+        average_green += safe_image[i+1][j+1].rgbtGreen;
+        average_green /= (double) 6;
+
+        round_average(&average_green);
+        image[i-1][j-1].rgbtGreen = average_green;
+
+        //
+        average_blue += safe_image[i][j-1].rgbtBlue;
+        average_blue += safe_image[i][j].rgbtBlue;
+        average_blue += safe_image[i][j+1].rgbtBlue;
+        average_blue += safe_image[i+1][j-1].rgbtBlue;
+        average_blue += safe_image[i+1][j].rgbtBlue;
+        average_blue += safe_image[i+1][j+1].rgbtBlue;
+        average_blue /= (double) 6;
+
+        round_average(&average_blue);
+        image[i-1][j-1].rgbtBlue = average_blue;
+    }
     else if (i == height)
     {
         //
