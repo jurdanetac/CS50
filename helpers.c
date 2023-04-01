@@ -1,12 +1,13 @@
 #include "helpers.h"
 #include <stdio.h>
 
+void round_average(double* ptr);
+
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
     // Initialize needed variables
-    double average      = 0;
-    double decimal_part = 0;
+    double average = 0;
 
     // For each row of pixels
     for (int i = 0; i < height; i++)
@@ -16,19 +17,13 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
         {
             // Calculate average of the three channels
             average = (image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / (double) 3;
-            // Calculate the floating point of the average, if any
-            decimal_part = average - (int) average;
 
-            // Round if needed
-            if (decimal_part >= 0.5)
-            {
-                average++;
-            }
+            round_average(&average);
 
             // Set the new channels color for the pixel
-            image[i][j].rgbtBlue  = (int) average;
-            image[i][j].rgbtGreen = (int) average;
-            image[i][j].rgbtRed   = (int) average;
+            image[i][j].rgbtBlue  = average;
+            image[i][j].rgbtGreen = average;
+            image[i][j].rgbtRed   = average;
         }
     }
 
