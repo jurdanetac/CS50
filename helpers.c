@@ -106,12 +106,12 @@ void fill_safe_image(int height, int width, RGBTRIPLE image[height][width],
 }
 
 void blur_pixel(int i, int j,
-                         int height, int width, RGBTRIPLE image[height][width],
-                         int safe_height, int safe_width, RGBTRIPLE safe_image[safe_height][safe_width])
+                int height, int width, RGBTRIPLE image[height][width],
+                int safe_height, int safe_width, RGBTRIPLE safe_image[safe_height][safe_width])
 {
-    double average_blue  = 0;
-    double average_green = 0;
-    double average_red   = 0;
+    double average_blue  = 0.0;
+    double average_green = 0.0;
+    double average_red   = 0.0;
 
     // if pixel is upper left corner
     if (i == 1 && j == 1)
