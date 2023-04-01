@@ -105,7 +105,7 @@ void fill_safe_image(int height, int width, RGBTRIPLE image[height][width],
     return;
 }
 
-void copy_pixel_averages(int i, int j,
+void blur_pixel(int i, int j,
                          int height, int width, RGBTRIPLE image[height][width],
                          int safe_height, int safe_width, RGBTRIPLE safe_image[safe_height][safe_width])
 {
@@ -252,7 +252,9 @@ void copy_pixel_averages(int i, int j,
         average_red += safe_image[i-1][j+1].rgbtRed;
         average_red += safe_image[i][j].rgbtRed;
         average_red += safe_image[i][j+1].rgbtRed;
-        average_red /= 4;
+        average_red += safe_image[i+1][j].rgbtRed;
+        average_red += safe_image[i+1][j+1].rgbtRed;
+        average_red /= 6;
 
         round_average(&average_red);
         image[i-1][j-1].rgbtRed = average_red;
@@ -262,7 +264,9 @@ void copy_pixel_averages(int i, int j,
         average_green += safe_image[i-1][j+1].rgbtGreen;
         average_green += safe_image[i][j].rgbtGreen;
         average_green += safe_image[i][j+1].rgbtGreen;
-        average_green /= 4;
+        average_green += safe_image[i+1][j].rgbtGreen;
+        average_green += safe_image[i+1][j+1].rgbtGreen;
+        average_green /= 6;
 
         round_average(&average_green);
         image[i-1][j-1].rgbtGreen = average_green;
@@ -272,7 +276,9 @@ void copy_pixel_averages(int i, int j,
         average_blue += safe_image[i-1][j+1].rgbtBlue;
         average_blue += safe_image[i][j].rgbtBlue;
         average_blue += safe_image[i][j+1].rgbtBlue;
-        average_blue /= 4;
+        average_blue += safe_image[i+1][j].rgbtBlue;
+        average_blue += safe_image[i+1][j+1].rgbtBlue;
+        average_blue /= 6;
 
         round_average(&average_blue);
         image[i-1][j-1].rgbtBlue = average_blue;
@@ -284,7 +290,9 @@ void copy_pixel_averages(int i, int j,
         average_red += safe_image[i-1][j].rgbtRed;
         average_red += safe_image[i][j-1].rgbtRed;
         average_red += safe_image[i][j].rgbtRed;
-        average_red /= 4;
+        average_red += safe_image[i+1][j-1].rgbtRed;
+        average_red += safe_image[i+1][j].rgbtRed;
+        average_red /= 6;
 
         round_average(&average_red);
         image[i-1][j-1].rgbtRed = average_red;
@@ -294,7 +302,9 @@ void copy_pixel_averages(int i, int j,
         average_green += safe_image[i-1][j].rgbtGreen;
         average_green += safe_image[i][j-1].rgbtGreen;
         average_green += safe_image[i][j].rgbtGreen;
-        average_green /= 4;
+        average_green += safe_image[i+1][j-1].rgbtGreen;
+        average_green += safe_image[i+1][j].rgbtGreen;
+        average_green /= 6;
 
         round_average(&average_green);
         image[i-1][j-1].rgbtGreen = average_green;
@@ -304,7 +314,9 @@ void copy_pixel_averages(int i, int j,
         average_blue += safe_image[i-1][j].rgbtBlue;
         average_blue += safe_image[i][j-1].rgbtBlue;
         average_blue += safe_image[i][j].rgbtBlue;
-        average_blue /= 4;
+        average_blue += safe_image[i+1][j-1].rgbtBlue;
+        average_blue += safe_image[i+1][j].rgbtBlue;
+        average_blue /= 6;
 
         round_average(&average_blue);
         image[i-1][j-1].rgbtBlue = average_blue;
@@ -314,9 +326,11 @@ void copy_pixel_averages(int i, int j,
         //
         average_red += safe_image[i][j-1].rgbtRed;
         average_red += safe_image[i][j].rgbtRed;
+        average_red += safe_image[i][j+1].rgbtRed;
         average_red += safe_image[i+1][j-1].rgbtRed;
         average_red += safe_image[i+1][j].rgbtRed;
-        average_red /= 4;
+        average_red += safe_image[i+1][j+1].rgbtRed;
+        average_red /= 6;
 
         round_average(&average_red);
         image[i-1][j-1].rgbtRed = average_red;
@@ -324,9 +338,11 @@ void copy_pixel_averages(int i, int j,
         //
         average_green += safe_image[i][j-1].rgbtGreen;
         average_green += safe_image[i][j].rgbtGreen;
+        average_green += safe_image[i][j+1].rgbtGreen;
         average_green += safe_image[i+1][j-1].rgbtGreen;
         average_green += safe_image[i+1][j].rgbtGreen;
-        average_green /= 4;
+        average_green += safe_image[i+1][j+1].rgbtGreen;
+        average_green /= 6;
 
         round_average(&average_green);
         image[i-1][j-1].rgbtGreen = average_green;
@@ -334,9 +350,11 @@ void copy_pixel_averages(int i, int j,
         //
         average_blue += safe_image[i][j-1].rgbtBlue;
         average_blue += safe_image[i][j].rgbtBlue;
+        average_blue += safe_image[i][j+1].rgbtBlue;
         average_blue += safe_image[i+1][j-1].rgbtBlue;
         average_blue += safe_image[i+1][j].rgbtBlue;
-        average_blue /= 4;
+        average_blue += safe_image[i+1][j+1].rgbtBlue;
+        average_blue /= 6;
 
         round_average(&average_blue);
         image[i-1][j-1].rgbtBlue = average_blue;
@@ -346,9 +364,11 @@ void copy_pixel_averages(int i, int j,
         //
         average_red += safe_image[i-1][j-1].rgbtRed;
         average_red += safe_image[i-1][j].rgbtRed;
+        average_red += safe_image[i-1][j+1].rgbtRed;
         average_red += safe_image[i][j-1].rgbtRed;
         average_red += safe_image[i][j].rgbtRed;
-        average_red /= 4;
+        average_red += safe_image[i][j+1].rgbtRed;
+        average_red /= 6;
 
         round_average(&average_red);
         image[i-1][j-1].rgbtRed = average_red;
@@ -356,9 +376,11 @@ void copy_pixel_averages(int i, int j,
         //
         average_green += safe_image[i-1][j-1].rgbtGreen;
         average_green += safe_image[i-1][j].rgbtGreen;
+        average_green += safe_image[i-1][j+1].rgbtGreen;
         average_green += safe_image[i][j-1].rgbtGreen;
         average_green += safe_image[i][j].rgbtGreen;
-        average_green /= 4;
+        average_green += safe_image[i][j+1].rgbtGreen;
+        average_green /= 6;
 
         round_average(&average_green);
         image[i-1][j-1].rgbtGreen = average_green;
@@ -366,9 +388,11 @@ void copy_pixel_averages(int i, int j,
         //
         average_blue += safe_image[i-1][j-1].rgbtBlue;
         average_blue += safe_image[i-1][j].rgbtBlue;
+        average_blue += safe_image[i][j+1].rgbtBlue;
         average_blue += safe_image[i][j-1].rgbtBlue;
         average_blue += safe_image[i][j].rgbtBlue;
-        average_blue /= 4;
+        average_blue += safe_image[i][j+1].rgbtBlue;
+        average_blue /= 6;
 
         round_average(&average_blue);
         image[i-1][j-1].rgbtBlue = average_blue;
@@ -441,7 +465,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         // For each pixel in row
         for (int j = 1; j <= width; j++)
         {
-            copy_pixel_averages(i, j, height, width, image, SAFE_HEIGHT, SAFE_WIDTH, safe_image);
+            blur_pixel(i, j, height, width, image, SAFE_HEIGHT, SAFE_WIDTH, safe_image);
         }
     }
 
