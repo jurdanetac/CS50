@@ -71,7 +71,7 @@ void round_average(double* ptr)
     return;
 }
 
-void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][width])
+void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width])
 {
     // int counter = 0;
     int neighbor_i       = 0;
@@ -94,14 +94,12 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             {
                 // counter++;
                 neighbor_count++;
-                average_blue  += image[neighbor_i][neighbor_j].rgbtBlue;
-                average_green += image[neighbor_i][neighbor_j].rgbtGreen;
-                average_red   += image[neighbor_i][neighbor_j].rgbtRed;
+                average_blue  += untouched_image[neighbor_i][neighbor_j].rgbtBlue;
+                average_green += untouched_image[neighbor_i][neighbor_j].rgbtGreen;
+                average_red   += untouched_image[neighbor_i][neighbor_j].rgbtRed;
             }
         }
     }
-
-    // printf("%i\n", counter);
 
     average_blue  /= (double) neighbor_count;
     average_green /= (double) neighbor_count;
@@ -111,25 +109,36 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
     round_average(&average_green);
     round_average(&average_red);
 
-    // printf("%f\n", average_blue);
-    // printf("%f\n", average_green);
-    // printf("%f\n", average_red);
-
     image[i][j].rgbtBlue  = average_blue;
     image[i][j].rgbtGreen = average_green;
     image[i][j].rgbtRed   = average_red;
+
+    // printf("%i\n", counter);
+    // printf("%f\n", average_blue);
+    // printf("%f\n", average_green);
+    // printf("%f\n", average_red);
 }
 
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE untouched_image[height][width];
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            untouched_image[i][j] = image[i][j];
+        }
+    }
+
     // For each row of pixels
     for (int i = 0; i < height; i++)
     {
         // For each pixel in row
         for (int j = 0; j < width; j++)
         {
-            blur_pixel(i, j, height, width, image);
+            blur_pixel(i, j, height, width, image, untouched_image);
         }
     }
 
