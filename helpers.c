@@ -73,10 +73,11 @@ void round_average(double* ptr)
 
 void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][width])
 {
+    int counter = 0;
     int neighbor_count   = 0;
-    double average_blue  = 0;
-    double average_green = 0;
-    double average_red   = 0;
+    double average_blue  = 0.0;
+    double average_green = 0.0;
+    double average_red   = 0.0;
 
     // For each possible neighbor
     for (int r = -1; r < 2; r++)
@@ -86,6 +87,7 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             // check if not out of bounds
             if ((i+r) >= 0 && (j+c) >= 0 && (i+r) < height && (j+c) < width)
             {
+                // counter++;
                 neighbor_count++;
                 average_blue  += image[i+r][j+c].rgbtBlue;
                 average_green += image[i+r][j+c].rgbtGreen;
@@ -93,6 +95,8 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             }
         }
     }
+
+    // printf("%i\n", counter);
 
     average_blue  /= (double) neighbor_count;
     average_green /= (double) neighbor_count;
