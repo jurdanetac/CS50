@@ -73,7 +73,6 @@ void round_average(double* ptr)
 
 void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width])
 {
-    // int counter = 0;
     int neighbor_i       = 0;
     int neighbor_j       = 0;
     int neighbor_count   = 0;
@@ -89,10 +88,9 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             neighbor_i = i + r;
             neighbor_j = j + c;
 
-            // check if not out of bounds
+            // Check if neighbor not out of bounds
             if (neighbor_i >= 0 && neighbor_j >= 0 && neighbor_i < height && neighbor_j < width)
             {
-                // counter++;
                 neighbor_count++;
                 average_blue  += untouched_image[neighbor_i][neighbor_j].rgbtBlue;
                 average_green += untouched_image[neighbor_i][neighbor_j].rgbtGreen;
@@ -112,18 +110,12 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
     image[i][j].rgbtBlue  = average_blue;
     image[i][j].rgbtGreen = average_green;
     image[i][j].rgbtRed   = average_red;
-
-    // printf("%i\n", counter);
-    // printf("%f\n", average_blue);
-    // printf("%f\n", average_green);
-    // printf("%f\n", average_red);
 }
 
-// Blur image
-void blur(int height, int width, RGBTRIPLE image[height][width])
+// Copy image to another array since applying filter affects values
+// Bug found thanks to this explanation https://stackoverflow.com/a/62210080
+void duplicate_image(int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width])
 {
-    RGBTRIPLE untouched_image[height][width];
-
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
@@ -131,6 +123,15 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             untouched_image[i][j] = image[i][j];
         }
     }
+
+    return;
+}
+
+// Blur image
+void blur(int height, int width, RGBTRIPLE image[height][width])
+{
+    RGBTRIPLE untouched_image[height][width];
+    duplicate_image(height, width, image, untouched_image);
 
     // For each row of pixels
     for (int i = 0; i < height; i++)
@@ -149,6 +150,18 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE untouched_image[height][width];
+    duplicate_image(height, width, image, untouched_image);
+
+    // For each row of pixels
+    for (int i = 0; i < height; i++)
+    {
+        // For each pixel in row
+        for (int j = 0; j < width; j++)
+        {
+            
+        }
+    }
 
     // BMP converted successfully
     return;
