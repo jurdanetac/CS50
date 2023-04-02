@@ -174,7 +174,7 @@ void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             // Check if neighbor not out of bounds
             if (neighbor_i >= 0 && neighbor_j >= 0 && neighbor_i < height && neighbor_j < width)
             {
-                calculation_placeholder = GX[neighbor_i][neighbor_j] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
+                calculation_placeholder = GX[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
 
                 if (calculation_placeholder > 255)
                 {
@@ -185,7 +185,7 @@ void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][wid
                     *gx_blue += calculation_placeholder;
                 }
 
-                calculation_placeholder = GX[neighbor_i][neighbor_j] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
+                calculation_placeholder = GX[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
 
                 if (calculation_placeholder > 255)
                 {
@@ -196,7 +196,7 @@ void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][wid
                     *gx_green += calculation_placeholder;
                 }
 
-                calculation_placeholder = GX[neighbor_i][neighbor_j] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
+                calculation_placeholder = GX[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
 
                 if (calculation_placeholder > 255)
                 {
@@ -239,7 +239,7 @@ void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             // Check if neighbor not out of bounds
             if (neighbor_i >= 0 && neighbor_j >= 0 && neighbor_i < height && neighbor_j < width)
             {
-                calculation_placeholder = GY[neighbor_i][neighbor_j] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
+                calculation_placeholder = GY[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
 
                 if (calculation_placeholder > 255)
                 {
@@ -250,7 +250,7 @@ void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][wid
                     *gy_blue += calculation_placeholder;
                 }
 
-                calculation_placeholder = GY[neighbor_i][neighbor_j] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
+                calculation_placeholder = GY[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
 
                 if (calculation_placeholder > 255)
                 {
@@ -261,7 +261,7 @@ void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][wid
                     *gy_green += calculation_placeholder;
                 }
 
-                calculation_placeholder = GY[neighbor_i][neighbor_j] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
+                calculation_placeholder = GY[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
 
                 if (calculation_placeholder > 255)
                 {
@@ -274,6 +274,8 @@ void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             }
         }
     }
+
+    // printf("%i %i %i\n", *gy_red, *gy_green, *gy_blue);
 
     return;
 }
