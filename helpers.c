@@ -73,7 +73,9 @@ void round_average(double* ptr)
 
 void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][width])
 {
-    int counter = 0;
+    // int counter = 0;
+    int neighbor_i       = 0;
+    int neighbor_j       = 0;
     int neighbor_count   = 0;
     double average_blue  = 0.0;
     double average_green = 0.0;
@@ -84,14 +86,17 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
     {
         for (int c = -1; c < 2; c++)
         {
+            neighbor_i = i + r;
+            neighbor_j = j + c;
+
             // check if not out of bounds
-            if ((i+r) >= 0 && (j+c) >= 0 && (i+r) < height && (j+c) < width)
+            if (neighbor_i >= 0 && neighbor_j >= 0 && neighbor_i < height && neighbor_j < width)
             {
                 // counter++;
                 neighbor_count++;
-                average_blue  += image[i+r][j+c].rgbtBlue;
-                average_green += image[i+r][j+c].rgbtGreen;
-                average_red   += image[i+r][j+c].rgbtRed;
+                average_blue  += image[neighbor_i][neighbor_j].rgbtBlue;
+                average_green += image[neighbor_i][neighbor_j].rgbtGreen;
+                average_red   += image[neighbor_i][neighbor_j].rgbtRed;
             }
         }
     }
@@ -105,6 +110,10 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
     round_average(&average_blue);
     round_average(&average_green);
     round_average(&average_red);
+
+    // printf("%f\n", average_blue);
+    // printf("%f\n", average_green);
+    // printf("%f\n", average_red);
 
     image[i][j].rgbtBlue  = average_blue;
     image[i][j].rgbtGreen = average_green;
