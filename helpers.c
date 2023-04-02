@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-void round_average(double *ptr);
+void round_floating(double *ptr);
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -19,7 +19,7 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
             // Calculate average of the three channels
             average = (image[i][j].rgbtBlue + image[i][j].rgbtGreen + image[i][j].rgbtRed) / (double) 3;
 
-            round_average(&average);
+            round_floating(&average);
 
             // Set the new channels color for the pixel
             image[i][j].rgbtBlue  = average;
@@ -55,7 +55,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 }
 
 // Checks whether the given color has decimal part, then it rounds accordingly
-void round_average(double *ptr)
+void round_floating(double *ptr)
 {
     // e.g. 1.5 - 1 = 0.5
     double decimal_part = *ptr - (int) * ptr;
@@ -104,9 +104,9 @@ void blur_pixel(int i, int j, int height, int width, RGBTRIPLE image[height][wid
     average_green /= (double) neighbor_count;
     average_red   /= (double) neighbor_count;
 
-    round_average(&average_blue);
-    round_average(&average_green);
-    round_average(&average_red);
+    round_floating(&average_blue);
+    round_floating(&average_green);
+    round_floating(&average_red);
 
     image[i][j].rgbtBlue  = average_blue;
     image[i][j].rgbtGreen = average_green;
@@ -218,6 +218,17 @@ void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][wid
     return;
 }
 
+// Caps passed variable to 255 if it surpasses it
+void cap_rgb_color(double *var)
+{
+    if (*var > 255)
+    {
+        *var = 255;
+    }
+
+    return;
+}
+
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
@@ -244,30 +255,18 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
         {
             compute_gx(i, j, height, width, image, untouched_image, &gx_blue, &gx_green, &gx_red);
             compute_gy(i, j, height, width, image, untouched_image, &gy_blue, &gy_green, &gy_red);
-            // printf("%i %i %i\n", gx_blue, gx_green, gx_red);
-            // printf("%i %i %i\n", gy_blue, gy_green, gy_red);
-            // return;
 
             blue  = sqrt(pow(gx_blue, 2) + pow(gy_blue, 2));
             green = sqrt(pow(gx_green, 2) + pow(gy_green, 2));
             red   = sqrt(pow(gx_red, 2) + pow(gy_red, 2));
 
-            round_average(&blue);
-            round_average(&green);
-            round_average(&red);
+            round_floating(&blue);
+            round_floating(&green);
+            round_floating(&red);
 
-            if (blue > 255)
-            {
-                blue = 255;
-            }
-            if (green > 255)
-            {
-                green = 255;
-            }
-            if (red > 255)
-            {
-                red = 255;
-            }
+            cap_rgb_color(&blue);
+            cap_rgb_color(&green);
+            cap_rgb_color(&red);
 
             image[i][j].rgbtBlue  = blue;
             image[i][j].rgbtGreen = green;
