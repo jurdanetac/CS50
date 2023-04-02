@@ -248,29 +248,21 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             // printf("%i %i %i\n", gy_blue, gy_green, gy_red);
             // return;
 
+            blue  = sqrt(pow(gx_blue, 2) + pow(gy_blue, 2));
+            green = sqrt(pow(gx_green, 2) + pow(gy_green, 2));
+            red   = sqrt(pow(gx_red, 2) + pow(gy_red, 2));
+
             if (blue > 255)
             {
                 blue = 255;
-            }
-            else
-            {
-                blue = sqrt(pow(gx_blue, 2)  + pow(gy_blue, 2));
             }
             if (green > 255)
             {
                 green = 255;
             }
-            else
-            {
-                green = sqrt(pow(gx_green, 2) + pow(gy_green, 2));
-            }
             if (red > 255)
             {
                 red = 255;
-            }
-            else
-            {
-                red = sqrt(pow(gx_red, 2)   + pow(gy_red, 2));
             }
 
             image[i][j].rgbtBlue  = blue;
