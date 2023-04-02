@@ -224,17 +224,17 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
     RGBTRIPLE untouched_image[height][width];
     duplicate_image(height, width, image, untouched_image);
 
-    int gx_blue  = 0;
-    int gy_blue  = 0;
-    int blue     = 0;
+    int gx_blue     = 0;
+    int gy_blue     = 0;
+    double blue     = 0.0;
 
-    int gx_green = 0;
-    int gy_green = 0;
-    int green    = 0;
+    int gx_green    = 0;
+    int gy_green    = 0;
+    double green    = 0.0;
 
-    int gx_red   = 0;
-    int gy_red   = 0;
-    int red      = 0;
+    int gx_red      = 0;
+    int gy_red      = 0;
+    double red      = 0.0;
 
     // For each row of pixels
     for (int i = 0; i < height; i++)
@@ -251,6 +251,10 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             blue  = sqrt(pow(gx_blue, 2) + pow(gy_blue, 2));
             green = sqrt(pow(gx_green, 2) + pow(gy_green, 2));
             red   = sqrt(pow(gx_red, 2) + pow(gy_red, 2));
+
+            round_average(&blue);
+            round_average(&green);
+            round_average(&red);
 
             if (blue > 255)
             {
