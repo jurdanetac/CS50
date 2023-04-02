@@ -150,7 +150,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 
 void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width], int *gx_blue, int *gx_green, int *gx_red)
 {
-    const int GX[3][3] = {{1, 0, -1}, {2, 0, -2}, {1, 0, -1}};
+    const int GX[3][3] = {{1, 0, -1},
+                          {2, 0, -2},
+                          {1, 0, -1}};
 
     // Reset channels values to zero
     *gx_blue  = 0;
@@ -159,14 +161,11 @@ void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][wid
 
     int neighbor_i     = 0;
     int neighbor_j     = 0;
-    int neighbor_count = 0;
-
-    unsigned long calculation_placeholder = 0;
 
     // For each possible neighbor
-    for (int r = -1; r < 2; r++)
+    for (int r = -1, tempx = 0; r < 2; r++, tempx++)
     {
-        for (int c = -1; c < 2; c++)
+        for (int c = -1, tempy = 0; c < 2; c++, tempy++)
         {
             neighbor_i = i + r;
             neighbor_j = j + c;
@@ -174,38 +173,9 @@ void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             // Check if neighbor not out of bounds
             if (neighbor_i >= 0 && neighbor_j >= 0 && neighbor_i < height && neighbor_j < width)
             {
-                calculation_placeholder = GX[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
-
-                if (calculation_placeholder > 255)
-                {
-                    *gx_blue += 255;
-                }
-                else
-                {
-                    *gx_blue += calculation_placeholder;
-                }
-
-                calculation_placeholder = GX[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
-
-                if (calculation_placeholder > 255)
-                {
-                    *gx_green += 255;
-                }
-                else
-                {
-                    *gx_green += calculation_placeholder;
-                }
-
-                calculation_placeholder = GX[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
-
-                if (calculation_placeholder > 255)
-                {
-                    *gx_red += 255;
-                }
-                else
-                {
-                    *gx_red += calculation_placeholder;
-                }
+                *gx_blue += GX[tempx][tempy] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
+                *gx_green += GX[tempx][tempy] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
+                *gx_red += GX[tempx][tempy] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
             }
         }
     }
@@ -215,7 +185,9 @@ void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][wid
 
 void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width], int *gy_blue, int *gy_green, int *gy_red)
 {
-    const int GY[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
+    const int GY[3][3] = {{1, 2, 1},
+                          {0, 0, 0},
+                          {-1, -2, -1}};
 
     // Reset channels values to zero
     *gy_blue  = 0;
@@ -224,14 +196,11 @@ void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][wid
 
     int neighbor_i     = 0;
     int neighbor_j     = 0;
-    int neighbor_count = 0;
-
-    unsigned long calculation_placeholder = 0;
 
     // For each possible neighbor
-    for (int r = -1; r < 2; r++)
+    for (int r = -1, tempx = 0; r < 2; r++, tempx++)
     {
-        for (int c = -1; c < 2; c++)
+        for (int c = -1, tempy = 0; c < 2; c++, tempy++)
         {
             neighbor_i = i + r;
             neighbor_j = j + c;
@@ -239,43 +208,12 @@ void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][wid
             // Check if neighbor not out of bounds
             if (neighbor_i >= 0 && neighbor_j >= 0 && neighbor_i < height && neighbor_j < width)
             {
-                calculation_placeholder = GY[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
-
-                if (calculation_placeholder > 255)
-                {
-                    *gy_blue += 255;
-                }
-                else
-                {
-                    *gy_blue += calculation_placeholder;
-                }
-
-                calculation_placeholder = GY[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
-
-                if (calculation_placeholder > 255)
-                {
-                    *gy_green += 255;
-                }
-                else
-                {
-                    *gy_green += calculation_placeholder;
-                }
-
-                calculation_placeholder = GY[r+1][c+1] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
-
-                if (calculation_placeholder > 255)
-                {
-                    *gy_red += 255;
-                }
-                else
-                {
-                    *gy_red += calculation_placeholder;
-                }
+                *gy_blue  += GY[tempx][tempy] * untouched_image[neighbor_i][neighbor_j].rgbtBlue;
+                *gy_green += GY[tempx][tempy] * untouched_image[neighbor_i][neighbor_j].rgbtGreen;
+                *gy_red   += GY[tempx][tempy] * untouched_image[neighbor_i][neighbor_j].rgbtRed;
             }
         }
     }
-
-    // printf("%i %i %i\n", *gy_red, *gy_green, *gy_blue);
 
     return;
 }
