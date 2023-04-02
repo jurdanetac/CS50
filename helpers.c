@@ -148,11 +148,10 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     return;
 }
 
-void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width], int *gx_blue, int *gx_green, int *gx_red)
+void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width],
+                int *gx_blue, int *gx_green, int *gx_red)
 {
-    const int GX[3][3] = {{1, 0, -1},
-                          {2, 0, -2},
-                          {1, 0, -1}};
+    const int GX[3][3] = {{1, 0, -1}, {2, 0, -2}, {1, 0, -1}};
 
     // Reset channels values to zero
     *gx_blue  = 0;
@@ -183,11 +182,10 @@ void compute_gx(int i, int j, int height, int width, RGBTRIPLE image[height][wid
     return;
 }
 
-void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width], int *gy_blue, int *gy_green, int *gy_red)
+void compute_gy(int i, int j, int height, int width, RGBTRIPLE image[height][width], RGBTRIPLE untouched_image[height][width],
+                int *gy_blue, int *gy_green, int *gy_red)
 {
-    const int GY[3][3] = {{1, 2, 1},
-                          {0, 0, 0},
-                          {-1, -2, -1}};
+    const int GY[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
 
     // Reset channels values to zero
     *gy_blue  = 0;
