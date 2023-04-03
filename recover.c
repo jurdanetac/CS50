@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
 
             do
             {
+                // Copy jpg header to image
                 fwrite(buffer, BLOCK_SIZE, 1, image);
                 fread(buffer, BLOCK_SIZE, 1, raw_file);
-                fwrite(buffer, BLOCK_SIZE, 1, image);
             }
             while (!(buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0));
         }
