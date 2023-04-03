@@ -24,28 +24,35 @@ int main(int argc, char *argv[])
     const int BLOCK_SIZE = 512;
     BYTE buffer[BLOCK_SIZE] = {0};
 
-    FILE *image;
+    FILE *image = NULL;
     int jpg_count = 0;
     char filename[8] = {""};
 
     while (fread(buffer, 1, BLOCK_SIZE, raw_file) == BLOCK_SIZE)
     {
-        printf("Block\n");
         if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
         {
-            printf("Found the start of a jpg file\n");
-            sprintf(filename, "%03d.jpg", jpg_count);
-            image = fopen(filename, "w");
-            jpg_count++;
-
-            do
+            if (jpg_count == 0)
             {
-                fwrite(buffer, 1, BLOCK_SIZE, image);
-                fread(buffer, 1, BLOCK_SIZE, raw_file);
+                sprintf(filename, "%03d.jpg", jpg_count);
+                image = fopen(filename, "w");
+                fwrite(buffer, BLOCK_SIZE, 1, image);
             }
-            while (!(buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0));
-
-            fclose(image);
+            else
+            {
+                fclose(image);
+                sprintf(filename, "%03d.jpg", jpg_count);
+                image = fopen(filename, "w");
+                fwrite(buffer, BLOCK_SIZE, 1, image);
+            }
+            jpg_count++;
+        }
+        else
+        {
+            if (jpg_count)
+            {
+                fwrite(buffer, BLOCK_SIZE, 1, image);
+            }
         }
     }
 
