@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
     const int BLOCK_SIZE = 512;
     BYTE buffer[BLOCK_SIZE] = {0};
 
-    FILE *image = NULL;
     int jpg_count = 0;
+    FILE *image = NULL;
     char filename[8] = {""};
 
     while (fread(buffer, 1, BLOCK_SIZE, raw_file) == BLOCK_SIZE)
@@ -36,6 +36,10 @@ int main(int argc, char *argv[])
             {
                 sprintf(filename, "%03d.jpg", jpg_count);
                 image = fopen(filename, "w");
+                if (image == NULL)
+                {
+                    return 1;
+                }
                 fwrite(buffer, BLOCK_SIZE, 1, image);
             }
             else
@@ -43,6 +47,10 @@ int main(int argc, char *argv[])
                 fclose(image);
                 sprintf(filename, "%03d.jpg", jpg_count);
                 image = fopen(filename, "w");
+                if (image == NULL)
+                {
+                    return 1;
+                }
                 fwrite(buffer, BLOCK_SIZE, 1, image);
             }
             jpg_count++;
@@ -56,6 +64,7 @@ int main(int argc, char *argv[])
         }
     }
 
+    fclose(image);
     fclose(raw_file);
 
     return 0;
