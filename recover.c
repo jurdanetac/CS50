@@ -21,29 +21,31 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // 0xff 0xd8 0xff [0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, or 0xef]
-
     const int BLOCK_SIZE = 512;
     BYTE buffer[BLOCK_SIZE] = {0};
 
+    FILE *image;
     int jpg_count = 0;
     char filename[8] = {""};
 
-    while (fread(buffer, BLOCK_SIZE, 1, raw_file))
+    while (fread(buffer, 1, BLOCK_SIZE, raw_file) == BLOCK_SIZE)
     {
+        printf("Block\n");
         if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
         {
+            printf("Found the start of a jpg file\n");
             sprintf(filename, "%03d.jpg", jpg_count);
+            image = fopen(filename, "w");
             jpg_count++;
-            FILE *image = fopen(filename, "w");
 
             do
             {
-                // Copy jpg header to image
-                fwrite(buffer, BLOCK_SIZE, 1, image);
-                fread(buffer, BLOCK_SIZE, 1, raw_file);
+                fwrite(buffer, 1, BLOCK_SIZE, image);
+                fread(buffer, 1, BLOCK_SIZE, raw_file);
             }
             while (!(buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0));
+
+            fclose(image);
         }
     }
 
