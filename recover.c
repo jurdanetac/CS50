@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // Set constant block size to 512, FAT Filesystem
     const int BLOCK_SIZE = 512;
     BYTE buffer[BLOCK_SIZE] = {0};
 
@@ -28,11 +29,14 @@ int main(int argc, char *argv[])
     FILE *image = NULL;
     char filename[8] = {""};
 
+    // Read until EOF
     while (fread(buffer, 1, BLOCK_SIZE, raw_file) == BLOCK_SIZE)
     {
+        // New JPG header found
         if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
         {
-            if (jpg_count == 0)
+            // If first JPG
+            if (!jpg_count)
             {
                 sprintf(filename, "%03d.jpg", jpg_count);
                 image = fopen(filename, "w");
@@ -64,8 +68,10 @@ int main(int argc, char *argv[])
         }
     }
 
+    // Close any remaining files
     fclose(image);
     fclose(raw_file);
 
+    // Program terminated successfully
     return 0;
 }
