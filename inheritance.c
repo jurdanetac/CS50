@@ -77,12 +77,19 @@ person *create_family(int generations)
 // Free `p` and all ancestors of `p`.
 void free_family(person *p)
 {
-    // TODO: Handle base case
+    // Handle base case
+    if (p->parents[0] == NULL)
+    {
+        free(p);
+        return;
+    }
 
-    // TODO: Free parents recursively
+    // Free parents recursively
+    free_family(p->parents[0]);
+    free_family(p->parents[1]);
 
-    // TODO: Free child
-
+    // Free child
+    free(p);
 }
 
 // Print each family member and their alleles.
