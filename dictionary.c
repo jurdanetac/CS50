@@ -30,18 +30,20 @@ node *table[N] = {NULL};
 bool check(const char *word)
 {
     unsigned int bucket = hash(word);
+    //printf("word to be hashed: %s %i\n", word, hash(word));
 
-    for (int i = 0; i < N; i++)
+    node *ptr = table[bucket];
+    //printf("%i: %p\n", bucket, ptr);
+    while (ptr != NULL)
     {
-        node *ptr = table[i];
-        while (ptr != NULL)
+        //printf("looking on %i\n", bucket);
+        //printf("word: '%s'\nptr->word: '%s'", word, ptr->word);
+        if (strcasecmp(word, ptr->word) == 0)
         {
-            if (strcasecmp(word, ptr->word) == 0)
-            {
-                return true;
-            }
-            ptr = ptr->next;
+            //printf("eplae");
+            return true;
         }
+        ptr = ptr->next;
     }
 
     return false;
@@ -55,10 +57,19 @@ unsigned int hash(const char *word)
     int word_length = strlen(word);
     char upper_word[word_length];
 
+    // print passed word
+    for (int i = 0; i < word_length; i++)
+    {
+        //printf("%c\n", word[i]);
+    }
+
     for (int i = 0; i < word_length; i++)
     {
         upper_word[i] = toupper(word[i]);
-        bucket += upper_word[i];
+        if (isalpha(upper_word[i]))
+        {
+            bucket += upper_word[i];
+        }
     }
 
     if (bucket >= N)
@@ -85,6 +96,9 @@ bool load(const char *dictionary)
     // Read each word
     while (fgets(word, LENGTH, p_dictionary))
     {
+        // Swap trailing newline of fgets with a null terminator
+        word[strcspn(word, "\n")] = '\0';
+
         node *n = malloc(sizeof(node));
         if (n == NULL)
         {
@@ -106,17 +120,15 @@ bool load(const char *dictionary)
         table[word_bucket] = n;
     }
 
-    /*
     for (int i = 0; i < N; i++)
     {
         node *ptr = table[i];
         while (ptr != NULL)
         {
-            printf("%s", ptr->word);
+            // printf("%i: %s", i, ptr->word);
             ptr = ptr->next;
         }
     }
-    */
 
     // Free allocated heap memory
     free(word);
@@ -146,12 +158,14 @@ unsigned int size(void)
 // Unloads dictionary from memory, returning true if successful, else false
 bool unload(void)
 {
+    // printf("\n");
     for (int i = 0; i < N; i++)
     {
         node *ptr = table[i];
         while (ptr != NULL)
         {
             node *next = ptr->next;
+            // printf("%i: %p\n", i, ptr);
             free(ptr);
             ptr = next;
         }
