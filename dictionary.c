@@ -81,7 +81,7 @@ bool load(const char *dictionary)
     int word_bucket = 0;
 
     // Read each word
-    while (fgets(word, LENGTH + 1, p_dictionary))
+    while (fgets(word, LENGTH + 2, p_dictionary))
     {
         // Swap trailing newline of fgets with a null terminator
         word[strcspn(word, "\n")] = '\0';
