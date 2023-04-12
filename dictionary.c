@@ -10,12 +10,10 @@
 
 #include "dictionary.h"
 
-// typedef uint8_t BYTE;
-
 // Represents a node in a hash table
 typedef struct node
 {
-    char word[LENGTH + 2];
+    char word[LENGTH + 1];
     struct node *next;
 }
 node;
@@ -79,11 +77,11 @@ bool load(const char *dictionary)
         return false;
     }
 
-    char *word = malloc(sizeof(char) * (LENGTH + 2));
+    char *word = malloc(sizeof(char) * (LENGTH + 1));
     int word_bucket = 0;
 
     // Read each word
-    while (fgets(word, LENGTH, p_dictionary))
+    while (fgets(word, LENGTH + 1, p_dictionary))
     {
         // Swap trailing newline of fgets with a null terminator
         word[strcspn(word, "\n")] = '\0';
