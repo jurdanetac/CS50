@@ -15,7 +15,7 @@
 // Represents a node in a hash table
 typedef struct node
 {
-    char word[LENGTH + 1];
+    char word[LENGTH + 2];
     struct node *next;
 }
 node;
@@ -30,17 +30,12 @@ node *table[N] = {NULL};
 bool check(const char *word)
 {
     unsigned int bucket = hash(word);
-    //printf("word to be hashed: %s %i\n", word, hash(word));
 
     node *ptr = table[bucket];
-    //printf("%i: %p\n", bucket, ptr);
     while (ptr != NULL)
     {
-        //printf("looking on %i\n", bucket);
-        //printf("word: '%s'\nptr->word: '%s'", word, ptr->word);
         if (strcasecmp(word, ptr->word) == 0)
         {
-            //printf("eplae");
             return true;
         }
         ptr = ptr->next;
@@ -56,12 +51,6 @@ unsigned int hash(const char *word)
 
     int word_length = strlen(word);
     char upper_word[word_length];
-
-    // print passed word
-    for (int i = 0; i < word_length; i++)
-    {
-        //printf("%c\n", word[i]);
-    }
 
     for (int i = 0; i < word_length; i++)
     {
@@ -125,7 +114,6 @@ bool load(const char *dictionary)
         node *ptr = table[i];
         while (ptr != NULL)
         {
-            // printf("%i: %s", i, ptr->word);
             ptr = ptr->next;
         }
     }
@@ -158,14 +146,12 @@ unsigned int size(void)
 // Unloads dictionary from memory, returning true if successful, else false
 bool unload(void)
 {
-    // printf("\n");
     for (int i = 0; i < N; i++)
     {
         node *ptr = table[i];
         while (ptr != NULL)
         {
             node *next = ptr->next;
-            // printf("%i: %p\n", i, ptr);
             free(ptr);
             ptr = next;
         }
