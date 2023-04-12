@@ -27,18 +27,24 @@ node *table[N] = {NULL};
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
+    // Determine where must be the word (if present)
     unsigned int bucket = hash(word);
 
     node *ptr = table[bucket];
+
+    // While words in linked list
     while (ptr != NULL)
     {
+        // If words match the word is correct
         if (strcasecmp(word, ptr->word) == 0)
         {
             return true;
         }
+        // Else check next word in linked list
         ptr = ptr->next;
     }
 
+    // Word not on dictionary
     return false;
 }
 
@@ -59,6 +65,7 @@ unsigned int hash(const char *word)
         }
     }
 
+    // If sum of chars surpasses the number of buckets
     if (bucket >= N)
     {
         return bucket % N;
@@ -72,6 +79,7 @@ bool load(const char *dictionary)
 {
     FILE *p_dictionary = fopen(dictionary, "r");
 
+    // Quit if dictionary could not be loaded
     if (p_dictionary == NULL)
     {
         return false;
