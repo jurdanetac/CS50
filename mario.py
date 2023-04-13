@@ -2,7 +2,11 @@ from cs50 import get_int
 
 
 def main():
-    height = get_int("Height: ")
+    # Ask for pyramid's height until user cooperates
+    while True:
+        height = get_int("Height: ")
+        if height > 0 and height < 9:
+            break
 
     """
     Expected output if height == 5
