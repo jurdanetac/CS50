@@ -1,15 +1,47 @@
 Times:
 
-10 simulations: TODO (record time using 0m0.000s format)
-100 simulations: TODO (record time using 0m0.000s format)
-1000 simulations: TODO (record time using 0m0.000s format)
-10000 simulations: TODO (record time using 0m0.000s format)
-100000 simulations: TODO (record time using 0m0.000s format)
-1000000 simulations: TODO (record time using 0m0.000s format)
+10 simulations: 0.037
+100 simulations: 0.026
+1000 simulations: 0.038s
+10000 simulations: 0.141s
+100000 simulations: 0.807s
+1000000 simulations: 8.047s
 
 Questions:
 
-Which predictions, if any, proved incorrect as you increased the number of simulations?: TODO
+Which predictions, if any, proved incorrect as you increased the number of simulations?:
+
+With a small number of simulations the teams with higher ratings are more likely to win,
+leaving the other teams with a 0.0% chance of winning. When simulations are increased,
+it seems it pretty much averages to a more "real" output.
+
+Sample output with N = 10
+
+Norway: 20.0% chance of winning
+Australia: 20.0% chance of winning
+Netherlands: 20.0% chance of winning
+Germany: 20.0% chance of winning
+England: 10.0% chance of winning
+Italy: 10.0% chance of winning
+Cameroon: 0.0% chance of winning
+France: 0.0% chance of winning
+Brazil: 0.0% chance of winning
+Spain: 0.0% chance of winning
+United States: 0.0% chance of winning
+China PR: 0.0% chance of winning
+Japan: 0.0% chance of winning
+Nigeria: 0.0% chance of winning
+Sweden: 0.0% chance of winning
+Canada: 0.0% chance of winning
 
 Suppose you're charged a fee for each second of compute time your program uses.
-After how many simulations would you call the predictions "good enough"?: TODO
+After how many simulations would you call the predictions "good enough"?:
+
+It seems like the predictions stabilized after about 100000 simulations show a
+huge increase in running time, e.g. setting simulations to 1000000 make the program
+take 10 times more time the former did. It reminds me of the e^x graphic where the
+asymptote approaches infinity in a few steps.
+
+Sample outputs with N = 100000 and N = 1000000 respectively
+100000 simulations: 0.807s
+1000000 simulations: 8.047s
