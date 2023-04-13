@@ -1,11 +1,11 @@
 Times:
 
-10 simulations: 0.037
-100 simulations: 0.026
-1000 simulations: 0.038s
-10000 simulations: 0.141s
-100000 simulations: 0.807s
-1000000 simulations: 8.047s
+10 simulations: 0m0.037
+100 simulations: 0m0.026
+1000 simulations: 0m0.038s
+10000 simulations: 0m0.141s
+100000 simulations: 0m0.807s
+1000000 simulations: 0m8.047s
 
 Questions:
 
@@ -43,5 +43,6 @@ take 10 times more time the former did. It reminds me of the e^x graphic where t
 asymptote approaches infinity in a few steps.
 
 Sample outputs with N = 100000 and N = 1000000 respectively
+
 100000 simulations: 0.807s
 1000000 simulations: 8.047s
