@@ -1,0 +1,24 @@
+Times:
+
+10 simulations: 0m0.037
+100 simulations: 0m0.026
+1000 simulations: 0m0.038s
+10000 simulations: 0m0.141s
+100000 simulations: 0m0.807s
+1000000 simulations: 0m8.047s
+
+Questions:
+
+Which predictions, if any, proved incorrect as you increased the number of simulations?:
+
+With a small number of simulations the teams with higher ratings are more likely to win,
+leaving the other teams with a 0.0% chance of winning. When simulations are increased,
+it seems it pretty much averages to a more "real" output.
+
+Suppose you're charged a fee for each second of compute time your program uses.
+After how many simulations would you call the predictions "good enough"?:
+
+It seems like the predictions stabilized after about 100000 simulations show a
+huge increase in running time, e.g. setting simulations to 1000000 make the program
+take 10 times more time the former did. It reminds me of the e^x graphic where the
+asymptote approaches infinity in a few steps.
