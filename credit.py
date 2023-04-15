@@ -1,6 +1,7 @@
 from cs50 import get_int
 
 
+# Main program section
 def main():
     while True:
         card = get_int("Number: ")
@@ -13,6 +14,7 @@ def main():
         print("INVALID")
 
 
+# Checks wether provided card number is, indeed, valid
 def luhns_check(card_number):
     digit = 0
     sum = 0
@@ -38,14 +40,18 @@ def luhns_check(card_number):
     return False
 
 
+# Prints which company issued the card
 def determine_issuer(credit_card):
     card_digits = len(str(credit_card))
 
     counted = 0
 
-    while counted < card_digits - 1:
+    while counted <= card_digits:
+        # Read one number
         second_digit = credit_card % 10
+        # Reduce the credit card number by one digit
         credit_card = int(credit_card / 10)
+        # Increase count of numbers read
         counted += 1
 
     if card_digits == 13 and credit_card == 4:
@@ -62,5 +68,5 @@ def determine_issuer(credit_card):
 
 # If running from this file
 if __name__ == "__main__":
-    # Code execution begins here"
+    # Code execution begins here
     main()
