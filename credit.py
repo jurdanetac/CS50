@@ -45,7 +45,7 @@ def determine_issuer(credit_card):
     card_digits = len(str(credit_card))
     counted = 0
 
-    while counted <= card_digits:
+    while counted < card_digits - 1:
         # Read one number of the credit card, starting with the last one
         second_digit = credit_card % 10
         # Shorten credit card number one place
