@@ -40,33 +40,41 @@ def luhns_check(card_number):
     return False
 
 
-# Prints which company issued the card
+# Determine the card's issuer
 def determine_issuer(credit_card):
     card_digits = len(str(credit_card))
-
     counted = 0
 
     while counted <= card_digits:
-        # Read one number
+        # Read one number of the credit card, starting with the last one
         second_digit = credit_card % 10
-        # Reduce the credit card number by one digit
+        # Shorten credit card number one place
         credit_card = int(credit_card / 10)
-        # Increase count of numbers read
+        # Increase counted numbers by one
         counted += 1
 
-    if card_digits == 13 and credit_card == 4:
-        print("VISA")
-    elif card_digits == 15 and (second_digit == 4 or second_digit == 7):
-        print("AMEX")
-    elif card_digits == 16 and credit_card == 4:
-        print("VISA")
-    elif card_digits == 16 and credit_card == 5 and (second_digit >= 1 and second_digit <= 5):
-        print("MASTERCARD")
-    else:
-        print("INVALID")
+    # Print who issued card
+    match card_digits:
+        case 13:
+            if credit_card == 4:
+                print("VISA")
+            else:
+                print("INVALID")
+        case 15:
+            if credit_card == 3 and (second_digit == 4 or second_digit == 7):
+                print("AMEX")
+            else:
+                print("INVALID")
+        case 16:
+            if credit_card == 4:
+                print("VISA")
+            elif credit_card == 5 and (second_digit >= 1 and second_digit <= 5):
+                print("MASTERCARD")
+        case _:
+            print("INVALID")
 
 
 # If running from this file
 if __name__ == "__main__":
-    # Code execution begins here
+    # Code execution begins here"
     main()
