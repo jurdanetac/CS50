@@ -6,20 +6,14 @@ def main():
     # Prompt user for input
     text = get_string("Text: ")
 
-    words = 0
+    # Found this nifty trick on https://stackoverflow.com/q/62777186
+    sentences = text.count(".") + text.count("?") + text.count("!")
+    words = len(text.split())
     letters = 0
-    sentences = 0
 
     for char in text:
-        # Is alphabetical
         if char.isalpha():
             letters += 1
-        # Is space
-        elif char.isspace():
-            words += 1
-        # Is end of sentence
-        elif char in [".", "?", "!"]:
-            sentences += 1
 
     avg_letters = letters * 100 / words
     avg_sentences = sentences * 100 / words
