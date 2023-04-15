@@ -4,7 +4,7 @@ from cs50 import get_int
 def main():
     while True:
         card = get_int("Number: ")
-        if card > 0:
+        if card > 0 and len(str(card)) < 17:
             break
 
     if luhns_check(card):
@@ -35,7 +35,6 @@ def luhns_check(card_number):
     if not (sum % 10):
         return True
 
-    print(sum)
     return False
 
 
