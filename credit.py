@@ -48,20 +48,16 @@ def determine_issuer(credit_card):
         credit_card = int(credit_card / 10)
         counted += 1
 
-    match card_digits:
-        case 13:
-            if credit_card == 4:
-                print("VISA")
-        case 15:
-            if credit_card == 3 and (second_digit == 4 or second_digit == 7):
-                print("AMEX")
-        case 16:
-            if credit_card == 4:
-                print("VISA")
-            elif credit_card == 5 and (second_digit >= 1 and second_digit <= 5):
-                print("MASTERCARD")
-        case _:
-            print("INVALID")
+    if card_digits == 13 and credit_card == 4:
+        print("VISA")
+    elif card_digits == 15 and (second_digit == 4 or second_digit == 7):
+        print("AMEX")
+    elif card_digits == 16 and credit_card == 4:
+        print("VISA")
+    elif card_digits == 16 and credit_card == 5 and (second_digit >= 1 and second_digit <= 5):
+        print("MASTERCARD")
+    else:
+        print("INVALID")
 
 
 # If running from this file
