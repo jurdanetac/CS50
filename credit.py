@@ -70,6 +70,8 @@ def determine_issuer(credit_card):
                 print("VISA")
             elif credit_card == 5 and (second_digit >= 1 and second_digit <= 5):
                 print("MASTERCARD")
+            else:
+                print("INVALID")
         case _:
             print("INVALID")
 
