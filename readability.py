@@ -10,9 +10,7 @@ def main():
     letters = 0
     sentences = 0
 
-    for char in range(len(text)):
-        char = text[char].lower()
-
+    for char in text:
         # Is alphabetical
         if char.isalpha():
             letters += 1
@@ -31,7 +29,7 @@ def main():
 
     if index >= 16:
         print("Grade 16+")
-    elif (index < 1):
+    elif index < 1:
         print("Before Grade 1")
     else:
         print(f"Grade {index}")
