@@ -37,7 +37,7 @@ def main():
         for seq in sequences:
             if database[person][seq] == longest_matches[seq]:
                 matches += 1
-        if matches == 3:
+        if matches == len(sequences):
             print(person)
             return
 
