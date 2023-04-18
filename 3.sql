@@ -1,1 +1,1 @@
-SELECT name FROM songs ORDER BY LENGTH(name) DESC LIMIT 5;
+SELECT name FROM songs ORDER BY LENGTH(duration_ms) DESC LIMIT 5;
