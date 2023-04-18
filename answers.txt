@@ -1,0 +1,7 @@
+If songs.db contains the top 100 songs of one listener from 2018, how would you characterize their audio aura?
+I would first categorize the most repeated genres of music, this gives you a, probably, good idea of what the user likes the most.
+You could also check the most listened artists and build on from there.
+
+Hypothesize about why the way you’ve calculated this aura might not be very representative of the listener. What better ways of calculating this aura would you propose?
+Not necessarily the most listend artists, songs or genres reflect the true musical aura of the listener, since the same device may be used by many
+people or just rarely access the app to search a random song. I believe inspecting user-created playlists could be a way to get an idea of the user's musical tastes.
