@@ -49,7 +49,7 @@ hour, minute
 FROM flights WHERE day = 29 AND month = 7 AND F = 'Fiftyville'
 ORDER BY hour ASC;
 
---SELECT
---(SELECT name FROM people WHERE people.passport_number = passengers.passport_number) as P FROM passengers WHERE flight_id =  36;
+SELECT
+(SELECT name FROM people WHERE people.passport_number = passengers.passport_number) as P FROM passengers WHERE flight_id =  36;
 
 -- SELECT account_number as AN, (SELECT name FROM people WHERE people.id = bank_accounts.person_id) as P FROM bank_accounts;
