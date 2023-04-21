@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Venezuela Trivia!</title>
+    </head>
+    <body>
+        <div class="header" style="color: white;">
+            <h1 style="font-family: monospace, monospace;"><span style="background-color: #ffcd00; border: solid 1px black;">Ven</span><span style="background-color: #001f7e; border: solid 1px black;">ezu</span><span style="background-color: #d00c27; border: solid 1px black;">ela</span> <span style="font-family: sans-serif">Trivia!</span></h1>
+        </div>
+
+        <div class="container" style="font-family: sans-serif">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <h3>Which of the following cities is not a Venezuelan city?</h3>
+                <button onclick=verifyAnswer(this) id="Puerto La Cruz">Puerto La Cruz</button>
+                <button onclick=verifyAnswer(this) id="Valencia">Valencia</button>
+                <button onclick=verifyAnswer(this) id="Coro">Coro</button>
+                <button onclick=verifyAnswer(this) id="Lechería">Lechería</button>
+                <button onclick=verifyAnswer(this) id="Maracaibo">Maracaibo</button>
+                <button onclick=verifyAnswer(this) id="Porlamar">Porlamar</button>
+                <button onclick=verifyAnswer(this) id="Valera">Valera</button>
+                <button onclick=verifyAnswer(this) id="Callao">Callao</button>
+                <button onclick=verifyAnswer(this) id="Barcelona">Barcelona</button>
+                <button onclick=verifyAnswer(this) id="Cumaná">Cumaná</button>
+                <button onclick=verifyAnswer(this) id="Barinas">Barinas</button>
+                <button onclick=verifyAnswer(this) id="Puerto Ayacucho">Puerto Ayacucho</button>
+                <button onclick=verifyAnswer(this) id="Maturín">Maturín</button>
+                <p id="feedbackArea"></p>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <h3>To what State does the 'Isla de Margarita' belongs?</h3>
+                <form id="partTwoForm" autocomplete="off">
+                    <input id="partTwoAnswer" type="text">
+                    <input type="submit" value="Check Answer">
+                </form>
+                <p id="partTwoFeedbackArea"></p>
+            </div>
+        </div>
+        <script>
+
+            // Part 1
+            function verifyAnswer(clickedButton)
+            {
+                const answer = clickedButton.innerText;
+                const feedbackArea = document.getElementById('feedbackArea');
+
+                if (answer == 'Callao')
+                {
+                    clickedButton.style.backgroundColor = 'green';
+                    feedbackArea.innerText = 'Correct!';
+                }
+                else
+                {
+                    clickedButton.style.backgroundColor = 'red';
+                    feedbackArea.innerText = 'Incorrect';
+                }
+            }
+
+            // Part 2
+            document.getElementById('partTwoForm').onsubmit = (event) => {
+                const answer = document.getElementById('partTwoAnswer').value;
+                const partTwoFeedbackArea = document.getElementById('partTwoFeedbackArea');
+
+                if (answer.toLowerCase() === 'Nueva Esparta'.toLowerCase())
+                {
+                    partTwoFeedbackArea.innerText = 'Correct!';
+                }
+                else
+                {
+                    partTwoFeedbackArea.innerText = 'Incorrect';
+                }
+
+                event.preventDefault();
+                return false;
+            }
+
+        </script>
+    </body>
+</html>
