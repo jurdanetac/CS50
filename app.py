@@ -124,7 +124,7 @@ def register():
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
-        if password == confirmation and username:
+        if password and password == confirmation and username and not db.execute("SELECT * FROM users WHERE username = ?;", username):
             db.execute("INSERT INTO users (username, hash) VALUES(?, ?);", username, generate_password_hash(password))
             return render_template("login.html")
         else:
