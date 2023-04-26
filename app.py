@@ -25,6 +25,8 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
+stocks = []
+
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
@@ -111,7 +113,15 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    return apology("TODO")
+
+    symbol = request.form.get("symbol")
+
+    if request.method == "POST" and symbol:
+        stock = lookup(symbol)
+
+        return render_template("quoted.html", stock=stock)
+
+    return render_template("quote.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -124,9 +134,17 @@ def register():
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
-        if password and password == confirmation and username and not db.execute("SELECT * FROM users WHERE username = ?;", username):
+        # username and password are not blank
+        if (username and password
+            # Password and confirmation matches
+            and password == confirmation
+                # There is not a registered user with `username` already
+                and not db.execute("SELECT * FROM users WHERE username = ?;", username)):
+
             db.execute("INSERT INTO users (username, hash) VALUES(?, ?);", username, generate_password_hash(password))
-            return render_template("login.html")
+
+            return redirect("/login")
+
         else:
             return apology("TODO")
 
