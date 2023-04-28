@@ -25,8 +25,6 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
-stocks = []
-
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
@@ -205,4 +203,4 @@ def sell():
         db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
         return redirect("/")
 
-    return render_template("sell.html")
+    return render_template("sell.html", stocks=db.execute("SELECT * FROM stocks WHERE owner=?", session["user_id"]))
