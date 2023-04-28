@@ -62,10 +62,8 @@ def buy():
         shares = int(request.form.get("shares"))
         cash = int(db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"])
 
-        if not (stock and shares > 0):
-            return apology("not found", 404)
-        elif not (cash >= stock["price"] * shares):
-            return apology("not found", 404)
+        if not (stock and shares > 0) or not (cash >= stock["price"] * shares):
+            return apology("not found", 400)
 
         for row in db.execute("SELECT * FROM stocks"):
             if row["owner"] == session["user_id"] and row["symbol"] == stock["symbol"]:
@@ -196,7 +194,7 @@ def sell():
         owned_shares = db.execute("SELECT shares FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
 
         if not owned_shares or not (stock and shares > 0 and shares <= owned_shares[0]["shares"]):
-            return apology("not found", 404)
+            return apology("not found", 400)
 
         db.execute("DELETE FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
         cash += stock["price"] * shares
