@@ -59,7 +59,7 @@ def buy():
 
     if request.method == "POST":
         stock = lookup(request.form.get("symbol"))
-        shares = int(request.form.get("shares"))
+        shares = int(float(request.form.get("shares")))
         cash = int(db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"])
 
         if not (stock and shares > 0) or not (cash >= stock["price"] * shares):
