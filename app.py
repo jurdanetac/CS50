@@ -59,13 +59,15 @@ def buy():
 
     if request.method == "POST":
         stock = lookup(request.form.get("symbol"))
-        shares = request.form.get("shares")
-        if shares:
-            shares = float(int(shares))
+        try:
+            shares = int(request.form.get("shares"))
+        except:
+            return apology("", 400)
+
         cash = int(db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"])
 
         if not (stock and shares > 0) or not (cash >= stock["price"] * shares):
-            return apology("not found", 400)
+            return apology("", 400)
 
         for row in db.execute("SELECT * FROM stocks"):
             if row["owner"] == session["user_id"] and row["symbol"] == stock["symbol"]:
@@ -150,7 +152,7 @@ def quote():
         if stock:
             return render_template("quoted.html", stock=stock)
         else:
-            return apology("not found", 400)
+            return apology("", 400)
 
     return render_template("quote.html")
 
@@ -196,7 +198,7 @@ def sell():
         owned_shares = db.execute("SELECT shares FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
 
         if not owned_shares or not (stock and shares > 0 and shares <= owned_shares[0]["shares"]):
-            return apology("not found", 400)
+            return apology("", 400)
 
         db.execute("DELETE FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
         cash += stock["price"] * shares
