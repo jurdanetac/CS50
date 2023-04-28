@@ -45,6 +45,7 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
+
     return apology("TODO")
 
 
@@ -52,7 +53,34 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+
+    if request.method == "POST":
+        stock = lookup(request.form.get("symbol"))
+        shares = int(request.form.get("shares"))
+        cash = int(db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"])
+
+        if not (stock and shares > 0):
+            return apology("not found", 404)
+        elif not (cash >= stock["price"] * shares):
+            return apology("not found", 404)
+
+        found = False
+        if db.execute("SELECT * FROM stocks"):
+            for r in db.execute("SELECT * FROM stocks"):
+                if r["owner"] == session["user_id"] and r["stock"] == stock["symbol"]:
+                    db.execute("UPDATE stocks SET shares=? WHERE owner=? AND stock=?",
+                               db.execute("SELECT shares FROM stocks WHERE owner=?", session["user_id"])[0]["shares"] + shares,
+                               session["user_id"], stock["symbol"])
+                    found = True
+
+        if not found:
+            db.execute("INSERT INTO stocks (owner, stock, shares) VALUES(?, ?, ?)", session["user_id"], stock["symbol"], shares)
+
+        cash -= stock["price"] * shares
+        db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
+        return redirect("/")
+
+    return render_template("buy.html")
 
 
 @app.route("/history")
@@ -114,12 +142,14 @@ def logout():
 def quote():
     """Get stock quote."""
 
-    symbol = request.form.get("symbol")
+    if request.method == "POST":
 
-    if request.method == "POST" and symbol:
-        stock = lookup(symbol)
+        stock = lookup(request.form.get("symbol"))
 
-        return render_template("quoted.html", stock=stock)
+        if stock:
+            return render_template("quoted.html", stock=stock)
+        else:
+            return apology("not found", 404)
 
     return render_template("quote.html")
 
@@ -146,7 +176,7 @@ def register():
             return redirect("/login")
 
         else:
-            return apology("TODO")
+            return apology("Unauthorized", 401)
 
     # GET
     return render_template("register.html")
