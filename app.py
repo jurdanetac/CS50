@@ -46,7 +46,10 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
 
-    return apology("TODO")
+    return render_template("index.html",
+                           stocks=db.execute("SELECT * FROM stocks WHERE owner=?", session["user_id"]),
+                           lookup=lookup,
+                           cash=db.execute("SELECT cash FROM users WHERE id=?", session["user_id"])[0]["cash"])
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -64,17 +67,15 @@ def buy():
         elif not (cash >= stock["price"] * shares):
             return apology("not found", 404)
 
-        found = False
-        if db.execute("SELECT * FROM stocks"):
-            for r in db.execute("SELECT * FROM stocks"):
-                if r["owner"] == session["user_id"] and r["stock"] == stock["symbol"]:
-                    db.execute("UPDATE stocks SET shares=? WHERE owner=? AND stock=?",
-                               db.execute("SELECT shares FROM stocks WHERE owner=?", session["user_id"])[0]["shares"] + shares,
-                               session["user_id"], stock["symbol"])
-                    found = True
-
-        if not found:
-            db.execute("INSERT INTO stocks (owner, stock, shares) VALUES(?, ?, ?)", session["user_id"], stock["symbol"], shares)
+        for row in db.execute("SELECT * FROM stocks"):
+            if row["owner"] == session["user_id"] and row["symbol"] == stock["symbol"]:
+                db.execute("UPDATE stocks SET shares=? WHERE owner=? AND symbol=?",
+                           db.execute("SELECT shares FROM stocks WHERE owner=?", session["user_id"])[0]["shares"] + shares,
+                           session["user_id"], stock["symbol"])
+                break
+        else:
+            db.execute("INSERT INTO stocks (owner, symbol, name, shares) VALUES(?, ?, ?, ?)",
+                       session["user_id"], stock["symbol"], stock["name"], shares)
 
         cash -= stock["price"] * shares
         db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
@@ -176,7 +177,7 @@ def register():
             return redirect("/login")
 
         else:
-            return apology("Unauthorized", 401)
+            return apology("Unauthorized", 400)
 
     # GET
     return render_template("register.html")
@@ -186,4 +187,20 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    return apology("TODO")
+
+    if request.method == "POST":
+        stock = lookup(request.form.get("symbol"))
+        shares = int(request.form.get("shares"))
+        cash = int(db.execute("SELECT cash FROM users WHERE id=?", session["user_id"])[0]["cash"])
+
+        owned_shares = db.execute("SELECT shares FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
+
+        if not owned_shares or not (stock and shares > 0 and shares <= owned_shares[0]["shares"]):
+            return apology("not found", 404)
+
+        db.execute("DELETE FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
+        cash += stock["price"] * shares
+        db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
+        return redirect("/")
+
+    return render_template("sell.html")
