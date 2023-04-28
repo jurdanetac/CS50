@@ -150,7 +150,7 @@ def quote():
         if stock:
             return render_template("quoted.html", stock=stock)
         else:
-            return apology("not found", 404)
+            return apology("not found", 400)
 
     return render_template("quote.html")
 
