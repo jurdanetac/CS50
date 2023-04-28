@@ -198,7 +198,7 @@ def sell():
         if not owned_shares or not (stock and shares > 0 and shares <= owned_shares[0]["shares"]):
             return apology("", 400)
 
-        db.execute("DELETE FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
+        db.execute("UPDATE stocks SET shares=? WHERE owner=? AND symbol=?", owned_shares[0]["shares"] - shares, session["user_id"], stock["symbol"])
         cash += stock["price"] * shares
         db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
         return redirect("/")
