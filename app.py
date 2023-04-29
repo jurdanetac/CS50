@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -77,6 +78,17 @@ def buy():
             db.execute("INSERT INTO stocks (owner, symbol, name, shares) VALUES(?, ?, ?, ?)",
                        session["user_id"], stock["symbol"], stock["name"], shares)
 
+        db.execute("INSERT INTO operations (date, user_id, operation, symbol, name, shares, price, total)\
+                   VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+                   str(datetime.now())[:19],
+                   session["user_id"],
+                   "p",
+                   stock["symbol"],
+                   stock["name"],
+                   shares,
+                   stock["price"],
+                   shares * stock["price"])
+
         cash -= stock["price"] * shares
         db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
         return redirect("/")
@@ -88,7 +100,8 @@ def buy():
 @login_required
 def history():
     """Show history of transactions"""
-    return apology("TODO")
+
+    return render_template("history.html", operations=db.execute("SELECT * FROM operations;"), user_id=session["user_id"])
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -193,12 +206,29 @@ def sell():
         shares = int(request.form.get("shares"))
         cash = int(db.execute("SELECT cash FROM users WHERE id=?", session["user_id"])[0]["cash"])
 
-        owned_shares = db.execute("SELECT shares FROM stocks WHERE owner=? AND symbol=?", session["user_id"], stock["symbol"])
+        owned_shares = db.execute("SELECT shares FROM stocks WHERE owner=? AND symbol=?",
+                                  session["user_id"], stock["symbol"])
 
         if not owned_shares or not (stock and shares > 0 and shares <= owned_shares[0]["shares"]):
             return apology("", 400)
 
-        db.execute("UPDATE stocks SET shares=? WHERE owner=? AND symbol=?", owned_shares[0]["shares"] - shares, session["user_id"], stock["symbol"])
+        if owned_shares[0]["shares"] == shares:
+            db.execute("DELETE FROM stocks WHERE owner=? AND symbol=?",
+                       session["user_id"], stock["symbol"])
+        else:
+            db.execute("UPDATE stocks SET shares=? WHERE owner=? AND symbol=?",
+                       owned_shares[0]["shares"] - shares, session["user_id"], stock["symbol"])
+
+        db.execute("INSERT INTO operations (date, user_id, operation, symbol, name, shares, price, total)\
+                   VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+                   str(datetime.now())[:19],
+                   session["user_id"],
+                   "s",
+                   stock["symbol"],
+                   stock["name"],
+                   shares,
+                   stock["price"],
+                   shares * stock["price"])
         cash += stock["price"] * shares
         db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
         return redirect("/")

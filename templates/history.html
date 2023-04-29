@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quoted
+{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Operation</th>
+            <th scope="col">Symbol</th>
+            <th scope="col">Name</th>
+            <th scope="col">Shares</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for operation in operations %}
+            {% if operation.user_id == user_id %}
+                <tr>
+                    <td>{{ operation.date}}</td>
+                    {% if operation.operation == "p" %}
+                        <td>Purchase</td>
+                    {% else %}
+                        <td>Sale</td>
+                    {% endif %}
+                    <td>{{ operation.symbol }}</td>
+                    <td>{{ operation.name }}</td>
+                    <td>{{ operation.shares }}</td>
+
+                    {% if operation.operation == "p" %}
+                        <td class="text-danger">{{ operation.price | usd }}</td>
+                        <td class="text-danger">{{ operation.total | usd }}</td>
+                    {% else %}
+                        <td class="text-success">{{ operation.price | usd }}</td>
+                        <td class="text-success">{{ operation.total | usd }}</td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
