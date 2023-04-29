@@ -45,10 +45,17 @@ def after_request(response):
 def index():
     """Show portfolio of stocks"""
 
+    try:
+        cash = db.execute("SELECT cash FROM users WHERE id=?", session["user_id"])[0]["cash"]
+    except:
+        return redirect("/register")
+
+    stocks = db.execute("SELECT * FROM stocks WHERE owner=?", session["user_id"])
+
     return render_template("index.html",
-                           stocks=db.execute("SELECT * FROM stocks WHERE owner=?", session["user_id"]),
+                           stocks=stocks,
                            lookup=lookup,
-                           cash=db.execute("SELECT cash FROM users WHERE id=?", session["user_id"])[0]["cash"])
+                           cash=cash)
 
 
 @app.route("/buy", methods=["GET", "POST"])
